@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CC000000"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:text="STOP SCROLLING 😤"
+        android:textSize="28sp"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="20dp"/>
+
+    <Button android:id="@+id/plus1" android:text="+1 min"/>
+    <Button android:id="@+id/plus2" android:text="+2 min"/>
+    <Button android:id="@+id/plus5" android:text="+5 min"/>
+    <Button android:id="@+id/plus10" android:text="+10 min"/>
+
+</LinearLayout>
