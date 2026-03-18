@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../main.dart';
@@ -11,7 +12,9 @@ class SettingsScreen extends ConsumerStatefulWidget {
   ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+class _SettingsScreenState extends ConsumerState<SettingsScreen> with WidgetsBindingObserver {
+  static const _channel = MethodChannel('com.scrollsense/usage_stats');
+
   int _interventionLevel = 3;
   int _lockDurationMins = 5;
   bool _nightModeEnabled = true;
@@ -19,6 +22,42 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool _usageStatsGranted = false;
   bool _overlayGranted = false;
   bool _notificationsGranted = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _refreshPermissions();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Refresh permissions when user comes back from Android settings
+    if (state == AppLifecycleState.resumed) {
+      _refreshPermissions();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  Future<void> _refreshPermissions() async {
+    try {
+      final usage = await _channel.invokeMethod<bool>('hasUsagePermission') ?? false;
+      final overlay = await _channel.invokeMethod<bool>('hasOverlayPermission') ?? false;
+      final accessibility = await _channel.invokeMethod<bool>('hasAccessibilityPermission') ?? false;
+      if (mounted) {
+        setState(() {
+          _usageStatsGranted = usage;
+          _overlayGranted = overlay;
+          _accessibilityEnabled = accessibility;
+        });
+      }
+    } catch (_) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +70,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             pinned: true,
             title: const Text('Settings', style: TextStyle(fontWeight: FontWeight.w800)),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.refresh_rounded),
+                onPressed: _refreshPermissions,
+                tooltip: 'Refresh permissions',
+              )
+            ],
           ),
           SliverPadding(
             padding: const EdgeInsets.all(16),
@@ -95,26 +141,33 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       _PermissionTile(
         icon: Icons.query_stats_rounded,
         title: 'Usage Access',
-        subtitle: _usageStatsGranted ? 'Granted ✓' : 'Required - Tap to grant',
+        subtitle: _usageStatsGranted ? 'Granted ✓' : 'Required — Tap to grant',
         color: _usageStatsGranted ? AppTheme.success : AppTheme.accent,
         granted: _usageStatsGranted,
-        onTap: () => setState(() => _usageStatsGranted = !_usageStatsGranted),
+        onTap: () async {
+          await _channel.invokeMethod('requestUsagePermission');
+          // User went to settings; refresh when they come back (via didChangeAppLifecycleState)
+        },
       ),
       _PermissionTile(
         icon: Icons.accessibility_new_rounded,
         title: 'Accessibility Service',
-        subtitle: _accessibilityEnabled ? 'Active ✓' : 'Required for scroll detection',
+        subtitle: _accessibilityEnabled ? 'Active ✓' : 'Required for app blocking — Tap to enable',
         color: _accessibilityEnabled ? AppTheme.success : AppTheme.accent,
         granted: _accessibilityEnabled,
-        onTap: () => setState(() => _accessibilityEnabled = !_accessibilityEnabled),
+        onTap: () async {
+          await _channel.invokeMethod('requestAccessibilityPermission');
+        },
       ),
       _PermissionTile(
         icon: Icons.layers_rounded,
         title: 'Display Over Apps',
-        subtitle: _overlayGranted ? 'Granted ✓' : 'Required for lock screen',
+        subtitle: _overlayGranted ? 'Granted ✓' : 'Required for lock screen — Tap to grant',
         color: _overlayGranted ? AppTheme.success : AppTheme.accent,
         granted: _overlayGranted,
-        onTap: () => setState(() => _overlayGranted = !_overlayGranted),
+        onTap: () async {
+          await _channel.invokeMethod('requestOverlayPermission');
+        },
       ),
       _PermissionTile(
         icon: Icons.notifications_rounded,

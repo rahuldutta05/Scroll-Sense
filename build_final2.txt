@@ -1,0 +1,282 @@
+﻿> Task :gradle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle:pluginDescriptors
+> Task :gradle:processResources
+
+> Task :gradle:compileKotlin
+w: file:///C:/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt:11:37 'ApkVariant' is deprecated. Deprecated in Java
+w: file:///C:/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt:614:69 'ApkVariant' is deprecated. Deprecated in Java
+w: file:///C:/flutter/packages/flutter_tools/gradle/src/main/kotlin/plugins/PluginHandler.kt:186:64 Unchecked cast: NamedDomainObjectContainer<out BuildType> to NamedDomainObjectContainer<BuildType>
+w: file:///C:/flutter/packages/flutter_tools/gradle/src/main/kotlin/plugins/PluginHandler.kt:187:69 Unchecked cast: NamedDomainObjectContainer<out BuildType> to NamedDomainObjectContainer<BuildType>
+
+> Task :gradle:compileJava NO-SOURCE
+> Task :gradle:compileGroovy NO-SOURCE
+> Task :gradle:classes
+> Task :gradle:jar
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:compileFlutterBuildDebug
+> Task :app:packJniLibsflutterBuildDebug
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :device_info_plus:preBuild UP-TO-DATE
+> Task :device_info_plus:preDebugBuild UP-TO-DATE
+> Task :flutter_background_service_android:preBuild UP-TO-DATE
+> Task :device_info_plus:writeDebugAarMetadata
+> Task :flutter_background_service_android:preDebugBuild UP-TO-DATE
+> Task :flutter_local_notifications:preBuild UP-TO-DATE
+> Task :flutter_local_notifications:preDebugBuild UP-TO-DATE
+> Task :flutter_background_service_android:writeDebugAarMetadata
+> Task :flutter_local_notifications:writeDebugAarMetadata
+> Task :path_provider_android:preBuild UP-TO-DATE
+> Task :path_provider_android:preDebugBuild UP-TO-DATE
+> Task :permission_handler_android:preBuild UP-TO-DATE
+> Task :permission_handler_android:preDebugBuild UP-TO-DATE
+> Task :path_provider_android:writeDebugAarMetadata
+> Task :shared_preferences_android:preBuild UP-TO-DATE
+> Task :shared_preferences_android:preDebugBuild UP-TO-DATE
+> Task :permission_handler_android:writeDebugAarMetadata
+> Task :sqflite_android:preBuild UP-TO-DATE
+> Task :sqflite_android:preDebugBuild UP-TO-DATE
+> Task :shared_preferences_android:writeDebugAarMetadata
+> Task :usage_stats:preBuild UP-TO-DATE
+> Task :usage_stats:preDebugBuild UP-TO-DATE
+> Task :sqflite_android:writeDebugAarMetadata
+> Task :usage_stats:writeDebugAarMetadata
+> Task :app:cleanMergeDebugAssets
+> Task :app:mergeDebugShaders
+> Task :app:checkDebugAarMetadata
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :device_info_plus:mergeDebugShaders
+> Task :device_info_plus:compileDebugShaders NO-SOURCE
+> Task :device_info_plus:generateDebugAssets UP-TO-DATE
+> Task :device_info_plus:mergeDebugAssets
+> Task :flutter_background_service_android:mergeDebugShaders
+> Task :flutter_background_service_android:compileDebugShaders NO-SOURCE
+> Task :flutter_background_service_android:generateDebugAssets UP-TO-DATE
+> Task :flutter_background_service_android:mergeDebugAssets
+> Task :flutter_local_notifications:mergeDebugShaders
+> Task :flutter_local_notifications:compileDebugShaders NO-SOURCE
+> Task :flutter_local_notifications:generateDebugAssets UP-TO-DATE
+> Task :flutter_local_notifications:mergeDebugAssets
+> Task :path_provider_android:mergeDebugShaders
+> Task :path_provider_android:compileDebugShaders NO-SOURCE
+> Task :path_provider_android:generateDebugAssets UP-TO-DATE
+> Task :path_provider_android:mergeDebugAssets
+> Task :permission_handler_android:mergeDebugShaders
+> Task :permission_handler_android:compileDebugShaders NO-SOURCE
+> Task :permission_handler_android:generateDebugAssets UP-TO-DATE
+> Task :permission_handler_android:mergeDebugAssets
+> Task :shared_preferences_android:mergeDebugShaders
+> Task :shared_preferences_android:compileDebugShaders NO-SOURCE
+> Task :shared_preferences_android:generateDebugAssets UP-TO-DATE
+> Task :shared_preferences_android:mergeDebugAssets
+> Task :sqflite_android:mergeDebugShaders
+> Task :sqflite_android:compileDebugShaders NO-SOURCE
+> Task :sqflite_android:generateDebugAssets UP-TO-DATE
+> Task :sqflite_android:mergeDebugAssets
+> Task :usage_stats:mergeDebugShaders
+> Task :usage_stats:compileDebugShaders NO-SOURCE
+> Task :usage_stats:generateDebugAssets UP-TO-DATE
+> Task :usage_stats:mergeDebugAssets
+> Task :app:mergeDebugAssets
+> Task :app:copyFlutterAssetsDebug
+> Task :app:generateDebugResValues
+> Task :device_info_plus:generateDebugResValues
+> Task :device_info_plus:generateDebugResources
+> Task :device_info_plus:packageDebugResources
+> Task :flutter_background_service_android:generateDebugResValues
+> Task :flutter_background_service_android:generateDebugResources
+> Task :flutter_background_service_android:packageDebugResources
+> Task :flutter_local_notifications:generateDebugResValues
+> Task :flutter_local_notifications:generateDebugResources
+> Task :flutter_local_notifications:packageDebugResources
+> Task :path_provider_android:generateDebugResValues
+> Task :path_provider_android:generateDebugResources
+> Task :path_provider_android:packageDebugResources
+> Task :permission_handler_android:generateDebugResValues
+> Task :permission_handler_android:generateDebugResources
+> Task :permission_handler_android:packageDebugResources
+> Task :shared_preferences_android:generateDebugResValues
+> Task :shared_preferences_android:generateDebugResources
+> Task :shared_preferences_android:packageDebugResources
+> Task :sqflite_android:generateDebugResValues
+> Task :sqflite_android:generateDebugResources
+> Task :sqflite_android:packageDebugResources
+> Task :usage_stats:generateDebugResValues
+> Task :usage_stats:generateDebugResources
+> Task :usage_stats:packageDebugResources
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+> Task :app:packageDebugResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :device_info_plus:extractDeepLinksDebug
+> Task :app:parseDebugLocalResources
+> Task :flutter_background_service_android:extractDeepLinksDebug
+
+> Task :device_info_plus:processDebugManifest
+package="dev.fluttercommunity.plus.device_info" found in source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-10.1.2\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="dev.fluttercommunity.plus.device_info" from the source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\device_info_plus-10.1.2\android\src\main\AndroidManifest.xml.
+
+> Task :flutter_local_notifications:extractDeepLinksDebug
+
+> Task :flutter_background_service_android:processDebugManifest
+package="id.flutter.flutter_background_service" found in source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_background_service_android-6.3.1\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="id.flutter.flutter_background_service" from the source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_background_service_android-6.3.1\android\src\main\AndroidManifest.xml.
+
+> Task :path_provider_android:extractDeepLinksDebug
+
+> Task :flutter_local_notifications:processDebugManifest
+package="com.dexterous.flutterlocalnotifications" found in source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_local_notifications-17.2.4\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.dexterous.flutterlocalnotifications" from the source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_local_notifications-17.2.4\android\src\main\AndroidManifest.xml.
+
+> Task :permission_handler_android:extractDeepLinksDebug
+
+> Task :path_provider_android:processDebugManifest
+package="io.flutter.plugins.pathprovider" found in source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_android-2.2.22\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.pathprovider" from the source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\path_provider_android-2.2.22\android\src\main\AndroidManifest.xml.
+
+> Task :shared_preferences_android:extractDeepLinksDebug
+
+> Task :permission_handler_android:processDebugManifest
+package="com.baseflow.permissionhandler" found in source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_android-12.1.0\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.baseflow.permissionhandler" from the source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\permission_handler_android-12.1.0\android\src\main\AndroidManifest.xml.
+
+> Task :sqflite_android:extractDeepLinksDebug
+
+> Task :shared_preferences_android:processDebugManifest
+package="io.flutter.plugins.sharedpreferences" found in source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\shared_preferences_android-2.4.20\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.flutter.plugins.sharedpreferences" from the source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\shared_preferences_android-2.4.20\android\src\main\AndroidManifest.xml.
+
+> Task :usage_stats:extractDeepLinksDebug
+
+> Task :sqflite_android:processDebugManifest
+package="com.tekartik.sqflite" found in source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite_android-2.4.2+2\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.tekartik.sqflite" from the source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\sqflite_android-2.4.2+2\android\src\main\AndroidManifest.xml.
+
+> Task :usage_stats:processDebugManifest
+package="io.github.parassharmaa.usage_stats" found in source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\usage_stats-1.3.1\android\src\main\AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="io.github.parassharmaa.usage_stats" from the source AndroidManifest.xml: C:\Users\rahul\AppData\Local\Pub\Cache\hosted\pub.dev\usage_stats-1.3.1\android\src\main\AndroidManifest.xml.
+
+> Task :device_info_plus:compileDebugLibraryResources
+> Task :app:mergeDebugResources
+> Task :device_info_plus:parseDebugLocalResources
+
+> Task :app:processDebugMainManifest
+E:\GitHub\Scroll-Sense\android\app\src\debug\AndroidManifest.xml Warning:
+	service#id.flutter.flutter_background_service.BackgroundService@android:foregroundServiceType was tagged at AndroidManifest.xml:0 to replace other declarations but no other declaration present
+
+> Task :app:outputDebugAppLinkSettings
+> Task :app:processDebugManifest
+> Task :device_info_plus:generateDebugRFile
+> Task :flutter_background_service_android:compileDebugLibraryResources
+> Task :flutter_local_notifications:compileDebugLibraryResources
+> Task :flutter_background_service_android:parseDebugLocalResources
+> Task :app:processDebugManifestForPackage
+> Task :flutter_background_service_android:generateDebugRFile
+> Task :flutter_local_notifications:parseDebugLocalResources
+> Task :path_provider_android:compileDebugLibraryResources
+> Task :flutter_local_notifications:generateDebugRFile
+> Task :path_provider_android:parseDebugLocalResources
+> Task :permission_handler_android:compileDebugLibraryResources
+> Task :path_provider_android:generateDebugRFile
+> Task :permission_handler_android:parseDebugLocalResources
+> Task :shared_preferences_android:compileDebugLibraryResources
+> Task :permission_handler_android:generateDebugRFile
+> Task :shared_preferences_android:parseDebugLocalResources
+> Task :sqflite_android:compileDebugLibraryResources
+> Task :sqflite_android:parseDebugLocalResources
+> Task :shared_preferences_android:generateDebugRFile
+> Task :usage_stats:compileDebugLibraryResources
+> Task :device_info_plus:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :sqflite_android:generateDebugRFile
+> Task :usage_stats:parseDebugLocalResources
+> Task :device_info_plus:javaPreCompileDebug
+> Task :flutter_background_service_android:javaPreCompileDebug
+> Task :usage_stats:generateDebugRFile
+> Task :flutter_local_notifications:javaPreCompileDebug
+
+> Task :flutter_background_service_android:compileDebugJavaWithJavac
+.\gradlew.bat : Note: 
+Some input files use 
+or override a 
+deprecated API.
+At line:1 char:13
++ cd android; 
+.\gradlew.bat :app:comp
+ileDebugJavaWithJavac 
+:app:compile ...
++             ~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (Note: Some in   
+ pu...deprecated AP    
+I.:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+Note: Recompile with 
+-Xlint:deprecation for 
+details.
+
+> Task :flutter_background_service_android:bundleLibCompileToJarDebug
+
+> Task :device_info_plus:compileDebugKotlin
+w: file:///C:/Users/rahul/AppData/Local/Pub/Cache/hosted/pub.dev/device_info_plus-10.1.2/android/src/main/kotlin/dev/fluttercommunity/plus/device_info/MethodCallHandlerImpl.kt:75:47 'static field SERIAL: String!' is deprecated. Deprecated in Java.
+
+> Task :flutter_local_notifications:compileDebugJavaWithJavac
+> Task :device_info_plus:compileDebugJavaWithJavac NO-SOURCE
+> Task :path_provider_android:javaPreCompileDebug
+> Task :device_info_plus:bundleLibCompileToJarDebug
+> Task :permission_handler_android:javaPreCompileDebug
+> Task :flutter_local_notifications:bundleLibCompileToJarDebug
+> Task :app:processDebugResources
+> Task :path_provider_android:compileDebugJavaWithJavac
+> Task :path_provider_android:bundleLibCompileToJarDebug
+> Task :permission_handler_android:compileDebugJavaWithJavac
+> Task :shared_preferences_android:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :permission_handler_android:bundleLibCompileToJarDebug
+> Task :shared_preferences_android:javaPreCompileDebug
+> Task :usage_stats:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :sqflite_android:javaPreCompileDebug
+> Task :sqflite_android:compileDebugJavaWithJavac
+> Task :usage_stats:javaPreCompileDebug
+> Task :sqflite_android:bundleLibCompileToJarDebug
+> Task :app:javaPreCompileDebug
+
+> Task :usage_stats:compileDebugKotlin
+w: file:///C:/Users/rahul/AppData/Local/Pub/Cache/hosted/pub.dev/usage_stats-1.3.1/android/src/main/kotlin/io/github/parassharmaa/usage_stats/UsageStatsPlugin.kt:79:21 This is a delicate API and its use requires care. Make sure you fully read and understand documentation of the declaration that is marked as a delicate API.
+w: file:///C:/Users/rahul/AppData/Local/Pub/Cache/hosted/pub.dev/usage_stats-1.3.1/android/src/main/kotlin/io/github/parassharmaa/usage_stats/UsageStatsPlugin.kt:106:21 This is a delicate API and its use requires care. Make sure you fully read and understand documentation of the declaration that is marked as a delicate API.
+w: file:///C:/Users/rahul/AppData/Local/Pub/Cache/hosted/pub.dev/usage_stats-1.3.1/android/src/main/kotlin/io/github/parassharmaa/usage_stats/Utils.kt:16:29 'fun checkOpNoThrow(p0: String, p1: Int, p2: String): Int' is deprecated. Deprecated in Java.
+
+> Task :usage_stats:compileDebugJavaWithJavac NO-SOURCE
+> Task :usage_stats:bundleLibCompileToJarDebug
+> Task :shared_preferences_android:compileDebugKotlin
+> Task :shared_preferences_android:compileDebugJavaWithJavac
+> Task :shared_preferences_android:bundleLibCompileToJarDebug
+> Task :app:compileDebugKotlin
+> Task :app:compileDebugJavaWithJavac
+
+[Incubating] Problems report is available at: file:///E:/GitHub/Scroll-Sense/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 42s
+140 actionable tasks: 140 executed

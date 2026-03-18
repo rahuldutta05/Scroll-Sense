@@ -85,24 +85,28 @@ public class UsageMonitorService extends Service {
         SharedPreferences prefs = getSharedPreferences("scrollsense_prefs", MODE_PRIVATE);
         int threshold = prefs.getInt("continuous_threshold_mins", 30);
 
-        boolean shouldIntervene = sessionMinutes >= threshold ||
+        boolean focusModeActive = prefs.getBoolean("focus_mode_active", false);
+        String blockedAppsJson = prefs.getString("blocked_apps", "[]");
+        // Focus mode: IMMEDIATELY block the app, no session length check needed
+        boolean isFocusModeBlocked = focusModeActive && blockedAppsJson.contains(currentApp);
+
+        boolean shouldIntervene = isFocusModeBlocked || // PRIORITY: focus mode, always immediate
+                sessionMinutes >= threshold ||
                 (isSocial && sessionMinutes >= 20) ||
                 (isNight && isSocial && sessionMinutes >= 10);
 
         if (shouldIntervene) {
-
-            boolean focusModeActive = prefs.getBoolean("focus_mode_active", false);
             int level = prefs.getInt("intervention_level", 3);
-
-            if (level >= 5 || focusModeActive) {
-
-                // 😈 HARD LOCK TRIGGER
+            if (level >= 5 || isFocusModeBlocked) {
                 Intent overlayIntent = new Intent(this, LockOverlayService.class);
                 overlayIntent.putExtra("locked_app", currentApp);
                 overlayIntent.putExtra("lock_reason",
-                        isNight ? "Late-night binge" : "Continuous usage");
-
-                startForegroundService(overlayIntent);
+                        isFocusModeBlocked ? "Focus mode active" : (isNight ? "Late-night binge" : "Continuous usage"));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(overlayIntent);
+                } else {
+                    startService(overlayIntent);
+                }
             }
         }
     }

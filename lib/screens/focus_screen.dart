@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../utils/app_theme.dart';
 
@@ -36,8 +37,9 @@ class FocusModeState {
 class FocusModeNotifier extends StateNotifier<FocusModeState> {
   FocusModeNotifier() : super(FocusModeState());
   Timer? _timer;
+  static const platform = MethodChannel('com.scrollsense/usage_stats');
 
-  void startSession(int minutes, String type, List<String> apps) {
+  void startSession(int minutes, String type, List<String> apps) async {
     state = state.copyWith(
       isActive: true,
       remainingSeconds: minutes * 60,
@@ -45,6 +47,15 @@ class FocusModeNotifier extends StateNotifier<FocusModeState> {
       blockedApps: apps,
     );
     _startTimer();
+    
+    try {
+      await platform.invokeMethod('setFocusMode', {
+        'active': true,
+        'apps': apps,
+      });
+    } catch (e) {
+      debugPrint("Failed to set focus mode: $e");
+    }
   }
 
   void _startTimer() {
@@ -58,13 +69,22 @@ class FocusModeNotifier extends StateNotifier<FocusModeState> {
     });
   }
 
-  void stopSession() {
+  void stopSession() async {
     _timer?.cancel();
     state = state.copyWith(
       isActive: false,
       remainingSeconds: 0,
       pomodoroCount: state.pomodoroCount + (state.sessionType == 'pomodoro' ? 1 : 0),
     );
+    
+    try {
+      await platform.invokeMethod('setFocusMode', {
+        'active': false,
+        'apps': [],
+      });
+    } catch (e) {
+      debugPrint("Failed to disable focus mode: $e");
+    }
   }
 
   @override

@@ -9,43 +9,31 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.provider.Settings;
 import android.view.accessibility.AccessibilityEvent;
 import androidx.core.app.NotificationCompat;
 
-import java.util.Arrays;
+import org.json.JSONArray;
+
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * ScrollSenseAccessibilityService
- * 
- * Listens for:
- * - Window state changes (app switches)
- * - View scroll events (doom scroll detection)
- * - Content changes (activity monitoring)
+ *
+ * Listens for window state changes (app switches) and IMMEDIATELY
+ * blocks apps when focus mode is active.
  */
 public class ScrollSenseAccessibilityService extends AccessibilityService {
 
     private static final String TAG = "ScrollSenseA11y";
     private static final String CHANNEL_ID = "scrollsense_lock";
 
-    // Social media apps to monitor
-    private static final Set<String> MONITORED_APPS = new HashSet<>(Arrays.asList(
-            "com.instagram.android",
-            "com.tiktok.android",
-            "com.twitter.android",
-            "com.snapchat.android",
-            "com.reddit.frontpage",
-            "com.google.android.youtube",
-            "com.facebook.katana"
-    ));
-
     private String currentApp = "";
     private long sessionStartTime = 0;
     private int scrollCount = 0;
     private long lastScrollTime = 0;
     private int rapidScrollCount = 0;
-    private boolean isLocked = false;
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -58,6 +46,9 @@ public class ScrollSenseAccessibilityService extends AccessibilityService {
 
         // Skip our own app
         if (packageName.equals(getPackageName())) return;
+        // Skip system UI
+        if (packageName.equals("com.android.systemui")) return;
+        if (packageName.isEmpty()) return;
 
         switch (event.getEventType()) {
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
@@ -66,10 +57,6 @@ public class ScrollSenseAccessibilityService extends AccessibilityService {
 
             case AccessibilityEvent.TYPE_VIEW_SCROLLED:
                 handleScrollEvent(packageName);
-                break;
-
-            case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
-                // Track content updates for activity monitoring
                 break;
         }
     }
@@ -81,79 +68,87 @@ public class ScrollSenseAccessibilityService extends AccessibilityService {
             scrollCount = 0;
             rapidScrollCount = 0;
 
-            // Check if we need to show lock overlay
+            // IMMEDIATELY check focus mode on every app switch
             checkAndShowLockIfNeeded(packageName);
         }
     }
 
     private void handleScrollEvent(String packageName) {
-        if (!MONITORED_APPS.contains(packageName)) return;
-
         long now = System.currentTimeMillis();
         scrollCount++;
 
         // Detect rapid scrolling (doom scroll)
-        if (now - lastScrollTime < 500) { // Less than 500ms between scrolls
+        if (now - lastScrollTime < 500) {
             rapidScrollCount++;
             if (rapidScrollCount >= 10) {
-                // Rapid scroll detected - trigger intervention
                 saveEvent("rapid_scroll", packageName);
-                rapidScrollCount = 0; // Reset to avoid spam
+                rapidScrollCount = 0;
             }
         } else {
             rapidScrollCount = 0;
         }
-
         lastScrollTime = now;
 
-        // Check continuous session length
-        long sessionDuration = (now - sessionStartTime) / 1000 / 60; // in minutes
-        if (sessionDuration >= 20 && MONITORED_APPS.contains(packageName)) {
-            triggerIntervention(packageName, "Social media binge: " + sessionDuration + " min");
+        // Check continuous session length for social apps
+        SharedPreferences prefs = getSharedPreferences("scrollsense_prefs", MODE_PRIVATE);
+        long sessionDuration = (now - sessionStartTime) / 1000 / 60; // minutes
+        int level = prefs.getInt("intervention_level", 3);
+
+        Set<String> SOCIAL = getSocialApps();
+        if (SOCIAL.contains(packageName) && sessionDuration >= 20 && level >= 5) {
+            triggerLockOverlay(packageName, "Social media binge: " + sessionDuration + " min");
         }
     }
 
     private void checkAndShowLockIfNeeded(String packageName) {
         SharedPreferences prefs = getSharedPreferences("scrollsense_prefs", MODE_PRIVATE);
-        
-        // Check if focus mode is active and this app is blocked
+
+        // Check if focus mode is active
         boolean focusModeActive = prefs.getBoolean("focus_mode_active", false);
-        String blockedAppsJson = prefs.getString("blocked_apps", "[]");
-        
-        if (focusModeActive && blockedAppsJson.contains(packageName)) {
-            showLockOverlay(packageName, "Focus mode active");
+        if (focusModeActive) {
+            String blockedAppsJson = prefs.getString("blocked_apps", "[]");
+            if (isAppBlocked(packageName, blockedAppsJson)) {
+                triggerLockOverlay(packageName, "Focus mode active");
+                return;
+            }
         }
 
         // Check night mode
         int hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY);
         boolean nightModeEnabled = prefs.getBoolean("night_mode_enabled", true);
-        if (nightModeEnabled && (hour >= 23 || hour <= 5) && MONITORED_APPS.contains(packageName)) {
-            // Warn user about late night usage
+        if (nightModeEnabled && (hour >= 23 || hour <= 5) && getSocialApps().contains(packageName)) {
             sendWarningNotification(packageName);
         }
     }
 
-    private void triggerIntervention(String packageName, String reason) {
-        if (isLocked) return;
-        
-        SharedPreferences prefs = getSharedPreferences("scrollsense_prefs", MODE_PRIVATE);
-        int level = prefs.getInt("intervention_level", 3);
-
-        if (level >= 5) {
-            showLockOverlay(packageName, reason);
-        } else if (level >= 4) {
-            sendWarningNotification(packageName);
+    private boolean isAppBlocked(String packageName, String blockedAppsJson) {
+        try {
+            JSONArray arr = new JSONArray(blockedAppsJson);
+            for (int i = 0; i < arr.length(); i++) {
+                if (arr.getString(i).equals(packageName)) return true;
+            }
+        } catch (Exception e) {
+            // Fallback: simple contains check
+            return blockedAppsJson.contains(packageName);
         }
+        return false;
     }
 
-    private void showLockOverlay(String packageName, String reason) {
-        isLocked = true;
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("show_lock", true);
-        intent.putExtra("locked_app", packageName);
-        intent.putExtra("lock_reason", reason);
-        startActivity(intent);
+    private void triggerLockOverlay(String packageName, String reason) {
+        // Only show if overlay permission granted
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            sendWarningNotification(packageName);
+            return;
+        }
+
+        Intent overlayIntent = new Intent(this, LockOverlayService.class);
+        overlayIntent.putExtra("locked_app", packageName);
+        overlayIntent.putExtra("lock_reason", reason);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(overlayIntent);
+        } else {
+            startService(overlayIntent);
+        }
     }
 
     private void sendWarningNotification(String packageName) {
@@ -163,7 +158,6 @@ public class ScrollSenseAccessibilityService extends AccessibilityService {
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID, "ScrollSense Alerts", NotificationManager.IMPORTANCE_HIGH
             );
-            channel.setDescription("Doom scroll detection alerts");
             nm.createNotificationChannel(channel);
         }
 
@@ -175,8 +169,8 @@ public class ScrollSenseAccessibilityService extends AccessibilityService {
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_dialog_alert)
-                .setContentTitle("⚠️ Doom Scroll Alert")
-                .setContentText("You've been on " + packageName + " for a while")
+                .setContentTitle("⚠️ ScrollSense Alert")
+                .setContentText("This app is blocked during Focus Mode")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
@@ -191,14 +185,23 @@ public class ScrollSenseAccessibilityService extends AccessibilityService {
         prefs.edit().putString(key, packageName).apply();
     }
 
-    @Override
-    public void onInterrupt() {
-        // Service interrupted
+    private Set<String> getSocialApps() {
+        Set<String> apps = new HashSet<>();
+        apps.add("com.instagram.android");
+        apps.add("com.tiktok.android");
+        apps.add("com.twitter.android");
+        apps.add("com.snapchat.android");
+        apps.add("com.reddit.frontpage");
+        apps.add("com.google.android.youtube");
+        apps.add("com.facebook.katana");
+        return apps;
     }
+
+    @Override
+    public void onInterrupt() {}
 
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
-        // Accessibility service connected
     }
 }

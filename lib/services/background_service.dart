@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'usage_stats_service.dart';
 
 Timer? timer;
 Future<void> initializeBackgroundService() async {
+  if (!Platform.isAndroid && !Platform.isIOS) return;
+
   final service = FlutterBackgroundService();
 
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
