@@ -36,7 +36,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final scores = ref.watch(behavioralScoresProvider);
+    final scoresAsync = ref.watch(behavioralScoresProvider);
+    final scores = scoresAsync.valueOrNull ?? BehavioralScores(
+        focusScore: 0, addictionScore: 0, productivityIndex: 0,
+        distractionScore: 0, nightUsageRatio: 0.0, socialMediaDependency: 0);
     final theme = Theme.of(context);
 
     return Scaffold(

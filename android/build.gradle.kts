@@ -16,6 +16,17 @@ subprojects {
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
 subprojects {
+    afterEvaluate {
+        if (project.name == "usage_stats") {
+            project.extensions.findByName("android")?.let { android ->
+                try {
+                    android::class.java.getMethod("compileSdkVersion", Int::class.java).invoke(android, 34)
+                } catch (e: Exception) {
+                    println("Could not force compileSdkVersion on \${project.name}")
+                }
+            }
+        }
+    }
     project.evaluationDependsOn(":app")
 }
 

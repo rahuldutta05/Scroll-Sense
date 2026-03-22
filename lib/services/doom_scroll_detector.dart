@@ -209,7 +209,7 @@ class DoomScrollNotifier extends StateNotifier<List<DoomScrollEvent>> {
   }
 }
 
-final behavioralScoresProvider = Provider<BehavioralScores>((ref) {
-  final usageData = UsageStatsService.getMockWeeklyData();
+final behavioralScoresProvider = FutureProvider<BehavioralScores>((ref) async {
+  final usageData = await UsageStatsService.getWeeklyData();
   return DoomScrollDetector.calculateScores(usageData);
 });

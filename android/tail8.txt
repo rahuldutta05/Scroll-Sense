@@ -1,0 +1,300 @@
+﻿> Task :flutter_background_service_android:prepareLintJarForPublish UP-TO-DATE
+> Task :flutter_local_notifications:createFullJarRelease UP-TO-DATE
+> Task :flutter_local_notifications:extractProguardFiles UP-TO-DATE
+> Task :flutter_local_notifications:generateReleaseLintModel UP-TO-DATE
+> Task :flutter_local_notifications:prepareLintJarForPublish UP-TO-DATE
+> Task :path_provider_android:createFullJarRelease UP-TO-DATE
+> Task :path_provider_android:extractProguardFiles UP-TO-DATE
+> Task :path_provider_android:generateReleaseLintModel UP-TO-DATE
+> Task :path_provider_android:prepareLintJarForPublish UP-TO-DATE
+> Task :permission_handler_android:createFullJarRelease UP-TO-DATE
+> Task :permission_handler_android:extractProguardFiles UP-TO-DATE
+> Task :permission_handler_android:generateReleaseLintModel UP-TO-DATE
+> Task :permission_handler_android:prepareLintJarForPublish UP-TO-DATE
+> Task :shared_preferences_android:createFullJarRelease UP-TO-DATE
+> Task :shared_preferences_android:extractProguardFiles UP-TO-DATE
+> Task :shared_preferences_android:generateReleaseLintModel UP-TO-DATE
+> Task :shared_preferences_android:prepareLintJarForPublish UP-TO-DATE
+> Task :sqflite_android:createFullJarRelease UP-TO-DATE
+> Task :sqflite_android:extractProguardFiles UP-TO-DATE
+> Task :sqflite_android:generateReleaseLintModel UP-TO-DATE
+> Task :sqflite_android:prepareLintJarForPublish UP-TO-DATE
+> Task :usage_stats:createFullJarRelease UP-TO-DATE
+> Task :usage_stats:extractProguardFiles UP-TO-DATE
+> Task :usage_stats:generateReleaseLintModel UP-TO-DATE
+> Task :usage_stats:prepareLintJarForPublish UP-TO-DATE
+> Task :app:generateReleaseLintVitalReportModel UP-TO-DATE
+> Task :device_info_plus:stripReleaseDebugSymbols NO-SOURCE
+> Task :device_info_plus:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :device_info_plus:extractDeepLinksForAarRelease UP-TO-DATE
+> Task :device_info_plus:extractReleaseAnnotations UP-TO-DATE
+> Task :device_info_plus:mergeReleaseConsumerProguardFiles UP-TO-DATE
+> Task :device_info_plus:mergeReleaseJavaResource UP-TO-DATE
+> Task :device_info_plus:syncReleaseLibJars UP-TO-DATE
+> Task :device_info_plus:bundleReleaseLocalLintAar UP-TO-DATE
+> Task :flutter_background_service_android:stripReleaseDebugSymbols NO-SOURCE
+> Task :flutter_background_service_android:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :flutter_background_service_android:extractDeepLinksForAarRelease UP-TO-DATE
+> Task :flutter_background_service_android:extractReleaseAnnotations UP-TO-DATE
+> Task :flutter_background_service_android:mergeReleaseConsumerProguardFiles UP-TO-DATE
+> Task :flutter_background_service_android:mergeReleaseJavaResource UP-TO-DATE
+> Task :flutter_background_service_android:syncReleaseLibJars UP-TO-DATE
+> Task :flutter_background_service_android:bundleReleaseLocalLintAar UP-TO-DATE
+> Task :flutter_local_notifications:stripReleaseDebugSymbols NO-SOURCE
+> Task :flutter_local_notifications:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :flutter_local_notifications:extractDeepLinksForAarRelease UP-TO-DATE
+> Task :flutter_local_notifications:extractReleaseAnnotations UP-TO-DATE
+> Task :flutter_local_notifications:mergeReleaseConsumerProguardFiles UP-TO-DATE
+> Task :flutter_local_notifications:mergeReleaseJavaResource UP-TO-DATE
+> Task :flutter_local_notifications:syncReleaseLibJars UP-TO-DATE
+> Task :flutter_local_notifications:bundleReleaseLocalLintAar UP-TO-DATE
+> Task :path_provider_android:stripReleaseDebugSymbols NO-SOURCE
+> Task :path_provider_android:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :path_provider_android:extractDeepLinksForAarRelease UP-TO-DATE
+> Task :path_provider_android:extractReleaseAnnotations UP-TO-DATE
+> Task :path_provider_android:mergeReleaseConsumerProguardFiles UP-TO-DATE
+> Task :path_provider_android:mergeReleaseJavaResource UP-TO-DATE
+> Task :path_provider_android:syncReleaseLibJars UP-TO-DATE
+> Task :path_provider_android:bundleReleaseLocalLintAar UP-TO-DATE
+> Task :permission_handler_android:stripReleaseDebugSymbols NO-SOURCE
+> Task :permission_handler_android:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :permission_handler_android:extractDeepLinksForAarRelease UP-TO-DATE
+> Task :permission_handler_android:extractReleaseAnnotations UP-TO-DATE
+> Task :permission_handler_android:mergeReleaseConsumerProguardFiles UP-TO-DATE
+> Task :permission_handler_android:mergeReleaseJavaResource UP-TO-DATE
+> Task :permission_handler_android:syncReleaseLibJars UP-TO-DATE
+> Task :permission_handler_android:bundleReleaseLocalLintAar UP-TO-DATE
+> Task :shared_preferences_android:stripReleaseDebugSymbols NO-SOURCE
+> Task :shared_preferences_android:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :shared_preferences_android:extractDeepLinksForAarRelease UP-TO-DATE
+> Task :shared_preferences_android:extractReleaseAnnotations UP-TO-DATE
+> Task :shared_preferences_android:mergeReleaseConsumerProguardFiles UP-TO-DATE
+> Task :shared_preferences_android:mergeReleaseJavaResource UP-TO-DATE
+> Task :shared_preferences_android:syncReleaseLibJars UP-TO-DATE
+> Task :shared_preferences_android:bundleReleaseLocalLintAar UP-TO-DATE
+> Task :sqflite_android:stripReleaseDebugSymbols NO-SOURCE
+> Task :sqflite_android:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :sqflite_android:extractDeepLinksForAarRelease UP-TO-DATE
+> Task :sqflite_android:extractReleaseAnnotations UP-TO-DATE
+> Task :sqflite_android:mergeReleaseConsumerProguardFiles UP-TO-DATE
+> Task :sqflite_android:mergeReleaseJavaResource UP-TO-DATE
+> Task :sqflite_android:syncReleaseLibJars UP-TO-DATE
+> Task :sqflite_android:bundleReleaseLocalLintAar UP-TO-DATE
+> Task :usage_stats:stripReleaseDebugSymbols NO-SOURCE
+> Task :usage_stats:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :usage_stats:extractDeepLinksForAarRelease UP-TO-DATE
+> Task :usage_stats:extractReleaseAnnotations UP-TO-DATE
+> Task :usage_stats:mergeReleaseConsumerProguardFiles UP-TO-DATE
+> Task :usage_stats:mergeReleaseJavaResource UP-TO-DATE
+> Task :usage_stats:syncReleaseLibJars UP-TO-DATE
+> Task :usage_stats:bundleReleaseLocalLintAar UP-TO-DATE
+> Task :device_info_plus:lintVitalAnalyzeRelease UP-TO-DATE
+> Task :device_info_plus:writeReleaseLintModelMetadata UP-TO-DATE
+> Task :flutter_background_service_android:lintVitalAnalyzeRelease UP-TO-DATE
+> Task :flutter_background_service_android:writeReleaseLintModelMetadata UP-TO-DATE
+> Task :flutter_local_notifications:lintVitalAnalyzeRelease UP-TO-DATE
+> Task :flutter_local_notifications:writeReleaseLintModelMetadata UP-TO-DATE
+> Task :path_provider_android:lintVitalAnalyzeRelease UP-TO-DATE
+> Task :path_provider_android:writeReleaseLintModelMetadata UP-TO-DATE
+> Task :permission_handler_android:lintVitalAnalyzeRelease UP-TO-DATE
+> Task :permission_handler_android:writeReleaseLintModelMetadata UP-TO-DATE
+> Task :shared_preferences_android:lintVitalAnalyzeRelease UP-TO-DATE
+> Task :shared_preferences_android:writeReleaseLintModelMetadata UP-TO-DATE
+> Task :sqflite_android:lintVitalAnalyzeRelease UP-TO-DATE
+> Task :sqflite_android:writeReleaseLintModelMetadata UP-TO-DATE
+> Task :usage_stats:lintVitalAnalyzeRelease UP-TO-DATE
+> Task :usage_stats:writeReleaseLintModelMetadata UP-TO-DATE
+> Task :device_info_plus:generateReleaseLintVitalModel UP-TO-DATE
+> Task :flutter_background_service_android:generateReleaseLintVitalModel UP-TO-DATE
+> Task :flutter_local_notifications:generateReleaseLintVitalModel UP-TO-DATE
+> Task :path_provider_android:generateReleaseLintVitalModel UP-TO-DATE
+> Task :permission_handler_android:generateReleaseLintVitalModel UP-TO-DATE
+> Task :shared_preferences_android:generateReleaseLintVitalModel UP-TO-DATE
+> Task :sqflite_android:generateReleaseLintVitalModel UP-TO-DATE
+> Task :usage_stats:generateReleaseLintVitalModel UP-TO-DATE
+> Task :app:collectReleaseDependencies UP-TO-DATE
+> Task :app:sdkReleaseDependencyData UP-TO-DATE
+> Task :app:validateSigningRelease UP-TO-DATE
+> Task :app:writeReleaseAppMetadata UP-TO-DATE
+> Task :app:writeReleaseSigningConfigVersions UP-TO-DATE
+> Task :device_info_plus:bundleReleaseAar UP-TO-DATE
+> Task :device_info_plus:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :device_info_plus:mergeReleaseResources UP-TO-DATE
+> Task :device_info_plus:verifyReleaseResources UP-TO-DATE
+> Task :device_info_plus:assembleRelease UP-TO-DATE
+> Task :flutter_background_service_android:bundleReleaseAar UP-TO-DATE
+> Task :flutter_background_service_android:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :flutter_background_service_android:mergeReleaseResources UP-TO-DATE
+> Task :flutter_background_service_android:verifyReleaseResources UP-TO-DATE
+> Task :flutter_background_service_android:assembleRelease UP-TO-DATE
+> Task :flutter_local_notifications:bundleReleaseAar UP-TO-DATE
+> Task :flutter_local_notifications:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :flutter_local_notifications:mergeReleaseResources UP-TO-DATE
+> Task :flutter_local_notifications:verifyReleaseResources UP-TO-DATE
+> Task :flutter_local_notifications:assembleRelease UP-TO-DATE
+> Task :path_provider_android:bundleReleaseAar UP-TO-DATE
+> Task :path_provider_android:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :path_provider_android:mergeReleaseResources UP-TO-DATE
+> Task :path_provider_android:verifyReleaseResources UP-TO-DATE
+> Task :path_provider_android:assembleRelease UP-TO-DATE
+> Task :permission_handler_android:bundleReleaseAar UP-TO-DATE
+> Task :permission_handler_android:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :permission_handler_android:mergeReleaseResources UP-TO-DATE
+> Task :permission_handler_android:verifyReleaseResources UP-TO-DATE
+> Task :permission_handler_android:assembleRelease UP-TO-DATE
+> Task :shared_preferences_android:bundleReleaseAar UP-TO-DATE
+> Task :shared_preferences_android:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :shared_preferences_android:mergeReleaseResources UP-TO-DATE
+> Task :shared_preferences_android:verifyReleaseResources UP-TO-DATE
+> Task :shared_preferences_android:assembleRelease UP-TO-DATE
+> Task :sqflite_android:bundleReleaseAar UP-TO-DATE
+> Task :sqflite_android:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :sqflite_android:mergeReleaseResources UP-TO-DATE
+> Task :sqflite_android:verifyReleaseResources UP-TO-DATE
+> Task :sqflite_android:assembleRelease UP-TO-DATE
+> Task :usage_stats:bundleReleaseAar UP-TO-DATE
+> Task :usage_stats:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :usage_stats:mergeReleaseResources UP-TO-DATE
+> Task :usage_stats:verifyReleaseResources FAILED
+
+> Task :app:minifyReleaseWithR8 FAILED
+.\gradlew : ERROR: 
+Missing classes 
+detected while running 
+R8. Please add the 
+missing classes or 
+apply additional keep 
+rules that are 
+generated in E:\GitHub\
+Scroll-Sense\build\app\
+outputs\mapping\release
+\missing_rules.txt.
+At line:1 char:13
++ cd android; 
+.\gradlew 
+assembleRelease > 
+build_log.txt 2>&1
++             ~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (ERROR: Missin   
+ g ...sing_rules.tx    
+t.:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+ERROR: R8: Missing 
+class com.example.scrol
+l_sense.ScrollSenseAcce
+ssibilityService 
+(referenced from: 
+boolean com.example.scr
+oll_sense.MainActivity.
+isAccessibilityEnabled(
+))
+Missing class com.examp
+le.scroll_sense.UsageMo
+nitorService 
+(referenced from: void 
+com.example.scroll_sens
+e.MainActivity.configur
+eFlutterEngine$lambda$0
+(com.example.scroll_sen
+se.MainActivity, io.flu
+tter.plugin.common.Meth
+odCall, io.flutter.plug
+in.common.MethodChannel
+$Result))
+
+> Task :app:lintVitalAnalyzeRelease
+
+[Incubating] Problems report is available at: file:///E:/GitHub/Scroll-Sense/build/reports/problems/problems-report.html
+
+FAILURE: Build 
+completed with 2 
+failures.
+
+1: Task failed with an 
+exception.
+-----------
+* What went wrong:
+Execution failed for 
+task ':usage_stats:veri
+fyReleaseResources'.
+> A failure occurred 
+while executing com.and
+roid.build.gradle.tasks
+.VerifyLibraryResources
+Task$Action
+   > Android resource 
+linking failed
+     ERROR: E:\GitHub\S
+croll-Sense\build\usage
+_stats\intermediates\me
+rged_res\release\mergeR
+eleaseResources\values\
+values.xml:194: AAPT: 
+error: resource 
+android:attr/lStar not 
+found.
+         
+
+* Try:
+> Run with 
+--stacktrace option to 
+get the stack trace.
+> Run with --info or 
+--debug option to get 
+more log output.
+> Run with --scan to 
+get full insights.
+> Get more help at http
+s://help.gradle.org.
+=======================
+=======================
+=======================
+=========
+
+2: Task failed with an 
+exception.
+-----------
+* What went wrong:
+Execution failed for 
+task ':app:minifyReleas
+eWithR8'.
+> A failure occurred 
+while executing com.and
+roid.build.gradle.inter
+nal.tasks.R8Task$R8Runn
+able
+   > Compilation 
+failed to complete
+
+* Try:
+> Run with 
+--stacktrace option to 
+get the stack trace.
+> Run with --info or 
+--debug option to get 
+more log output.
+> Run with --scan to 
+get full insights.
+> Get more help at http
+s://help.gradle.org.
+=======================
+=======================
+=======================
+=========
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 9s
+359 actionable tasks: 13 executed, 346 up-to-date

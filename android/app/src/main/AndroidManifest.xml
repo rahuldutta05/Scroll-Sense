@@ -89,6 +89,10 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
+        <property
+            android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+            android:value="screen_time_monitoring_and_blocking" />
+
     </application>
 
     <queries>

@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.content.pm.ServiceInfo;
 
 import androidx.core.app.NotificationCompat;
 import com.example.scroll_sense.LockOverlayService;
@@ -60,7 +61,12 @@ public class UsageMonitorService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        startForeground(NOTIFICATION_ID, buildNotification("Monitoring screen time..."));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            startForeground(NOTIFICATION_ID, buildNotification("Monitoring screen time..."),
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC | ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
+        } else {
+            startForeground(NOTIFICATION_ID, buildNotification("Monitoring screen time..."));
+        }
         handler.post(monitorRunnable);
         return START_STICKY;
     }
@@ -108,6 +114,8 @@ public class UsageMonitorService extends Service {
                     startService(overlayIntent);
                 }
             }
+        } else {
+            stopService(new Intent(this, LockOverlayService.class));
         }
     }
 

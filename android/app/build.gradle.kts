@@ -19,6 +19,10 @@ android {
         jvmTarget = "1.8"
     }
 
+    sourceSets {
+        getByName("main").java.srcDirs("src/main/kotlin")
+    }
+
     defaultConfig {
         applicationId = "com.example.scroll_sense"
         minSdk = flutter.minSdkVersion

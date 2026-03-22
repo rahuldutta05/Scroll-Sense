@@ -1,6 +1,7 @@
 package com.example.scroll_sense
 
 import android.app.AppOpsManager
+import android.app.usage.UsageEvents
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
@@ -12,7 +13,8 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import org.json.JSONArray
-import java.util.*
+import java.util.Calendar
+import java.util.TimeZone
 
 class MainActivity : FlutterActivity() {
 
@@ -113,6 +115,63 @@ class MainActivity : FlutterActivity() {
                             // Sort by usage descending
                             val sorted = list.sortedByDescending { it["totalTime"] as Long }
                             result.success(sorted)
+                        } catch (e: Exception) {
+                            result.error("ERROR", e.message, null)
+                        }
+                    }
+
+                    "getHourlyHeatmap" -> {
+                        if (!hasUsagePermission()) {
+                            result.error("NO_PERMISSION", "Usage stats permission not granted", null)
+                            return@setMethodCallHandler
+                        }
+                        try {
+                            val usm = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+                            val endTime = System.currentTimeMillis()
+                            val startTime = endTime - 24 * 60 * 60 * 1000L
+
+                            val events = usm.queryEvents(startTime, endTime)
+                            val heatmap = mutableMapOf<String, Long>()
+                            // Initialize with 0
+                            for (i in 0..23) heatmap[i.toString()] = 0L
+
+                            val event = UsageEvents.Event()
+                            val appStartTimes = mutableMapOf<String, Long>()
+
+                            while (events.hasNextEvent()) {
+                                events.getNextEvent(event)
+                                val packageName = event.packageName
+                                if (packageName == this@MainActivity.packageName) continue
+
+                                when (event.eventType) {
+                                    UsageEvents.Event.MOVE_TO_FOREGROUND -> {
+                                        appStartTimes[packageName] = event.timeStamp
+                                    }
+                                    UsageEvents.Event.MOVE_TO_BACKGROUND -> {
+                                        val start = appStartTimes.remove(packageName)
+                                        if (start != null && start >= startTime) {
+                                            val duration = event.timeStamp - start
+                                            val cal = Calendar.getInstance()
+                                            cal.timeInMillis = start
+                                            val hourStr = cal.get(Calendar.HOUR_OF_DAY).toString()
+                                            heatmap[hourStr] = (heatmap[hourStr] ?: 0L) + duration
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Normalize to 0-100 scale
+                            var maxDuration = 1L
+                            for (v in heatmap.values) {
+                                if (v > maxDuration) maxDuration = v
+                            }
+
+                            val normalized = mutableMapOf<String, Int>()
+                            for ((k, v) in heatmap) {
+                                normalized[k] = ((v * 100) / maxDuration).toInt()
+                            }
+
+                            result.success(normalized)
                         } catch (e: Exception) {
                             result.error("ERROR", e.message, null)
                         }

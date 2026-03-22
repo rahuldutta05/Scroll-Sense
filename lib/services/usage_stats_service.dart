@@ -42,7 +42,7 @@ class UsageStatsService {
         openCount: item['launchCount'] as int? ?? 0,
       )).toList();
     } catch (e) {
-      return _getMockUsageData();
+      return [];
     }
   }
 
@@ -54,59 +54,19 @@ class UsageStatsService {
     }
   }
 
-  // Mock data for testing/demo
-  static List<AppUsageRecord> _getMockUsageData() {
-    final now = DateTime.now();
-    return [
-      AppUsageRecord(packageName: 'com.instagram.android', appName: 'Instagram',
-          durationSeconds: 4320, date: now, openCount: 18),
-      AppUsageRecord(packageName: 'com.google.android.youtube', appName: 'YouTube',
-          durationSeconds: 3600, date: now, openCount: 8),
-      AppUsageRecord(packageName: 'com.twitter.android', appName: 'Twitter/X',
-          durationSeconds: 2700, date: now, openCount: 22),
-      AppUsageRecord(packageName: 'com.whatsapp', appName: 'WhatsApp',
-          durationSeconds: 1800, date: now, openCount: 35),
-      AppUsageRecord(packageName: 'com.tiktok.android', appName: 'TikTok',
-          durationSeconds: 5400, date: now, openCount: 12),
-      AppUsageRecord(packageName: 'com.snapchat.android', appName: 'Snapchat',
-          durationSeconds: 1200, date: now, openCount: 14),
-      AppUsageRecord(packageName: 'com.google.android.gm', appName: 'Gmail',
-          durationSeconds: 900, date: now, openCount: 6),
-      AppUsageRecord(packageName: 'com.spotify.music', appName: 'Spotify',
-          durationSeconds: 7200, date: now, openCount: 4),
-    ];
+  static Future<List<AppUsageRecord>> getWeeklyData() async {
+    final start = DateTime.now().subtract(const Duration(days: 7));
+    return getUsageStats(startTime: start);
   }
 
-  static List<AppUsageRecord> getMockWeeklyData() {
-    final data = <AppUsageRecord>[];
-    final apps = [
-      ('com.instagram.android', 'Instagram'),
-      ('com.google.android.youtube', 'YouTube'),
-      ('com.twitter.android', 'Twitter'),
-      ('com.tiktok.android', 'TikTok'),
-    ];
-
-    for (int i = 6; i >= 0; i--) {
-      final date = DateTime.now().subtract(Duration(days: i));
-      for (final app in apps) {
-        data.add(AppUsageRecord(
-          packageName: app.$1,
-          appName: app.$2,
-          durationSeconds: (1800 + (i * 300) + (app.$2.length * 100)),
-          date: date,
-          openCount: 5 + i,
-        ));
-      }
+  static Future<Map<int, int>> getHourlyHeatmap() async {
+    try {
+      final Map<dynamic, dynamic>? result = await _channel.invokeMethod('getHourlyHeatmap');
+      if (result == null) return {};
+      // Keys are strings from Android
+      return result.map((key, value) => MapEntry(int.parse(key as String), value as int));
+    } catch (e) {
+      return {};
     }
-    return data;
-  }
-
-  static Map<int, int> getMockHourlyHeatmap() {
-    return {
-      0: 15, 1: 5, 2: 30, 3: 45, 4: 10, 5: 5,
-      6: 20, 7: 60, 8: 45, 9: 30, 10: 40, 11: 55,
-      12: 70, 13: 55, 14: 45, 15: 60, 16: 80, 17: 90,
-      18: 95, 19: 100, 20: 85, 21: 75, 22: 88, 23: 92,
-    };
   }
 }

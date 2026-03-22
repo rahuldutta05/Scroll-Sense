@@ -5,6 +5,7 @@ import '../services/usage_stats_service.dart';
 import '../models/hive_adapters.dart';
 import '../widgets/app_usage_card.dart';
 import '../widgets/score_ring.dart';
+import '../services/doom_scroll_detector.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -15,13 +16,29 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final _heatmapData = UsageStatsService.getMockHourlyHeatmap();
-  final _weeklyData = UsageStatsService.getMockWeeklyData();
+  Map<int, int>? _heatmapData;
+  List<AppUsageRecord>? _weeklyData;
+  BehavioralScores? _scores;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final heatmap = await UsageStatsService.getHourlyHeatmap();
+    final weekly = await UsageStatsService.getWeeklyData();
+    final scores = DoomScrollDetector.calculateScores(weekly);
+    
+    if (mounted) {
+      setState(() {
+        _heatmapData = heatmap;
+        _weeklyData = weekly;
+        _scores = scores;
+      });
+    }
   }
 
   @override
@@ -32,6 +49,15 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
+    if (_heatmapData == null || _weeklyData == null || _scores == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Analytics', style: TextStyle(fontWeight: FontWeight.w800)),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (ctx, _) => [
@@ -102,12 +128,12 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
           crossAxisSpacing: 12,
           childAspectRatio: 0.85,
           children: [
-            _ScoreGridItem(label: 'Focus', score: 72, color: AppTheme.primary),
-            _ScoreGridItem(label: 'Addiction', score: 45, color: AppTheme.accent, isWarning: true),
-            _ScoreGridItem(label: 'Productivity', score: 65, color: AppTheme.success),
-            _ScoreGridItem(label: 'Distraction', score: 38, color: AppTheme.warning, isWarning: true),
-            _ScoreGridItem(label: 'Night Usage', score: 22, color: const Color(0xFF8B5CF6)),
-            _ScoreGridItem(label: 'Social Dep.', score: 58, color: const Color(0xFF06B6D4), isWarning: true),
+            _ScoreGridItem(label: 'Focus', score: _scores!.focusScore, color: AppTheme.primary),
+            _ScoreGridItem(label: 'Addiction', score: _scores!.addictionScore, color: AppTheme.accent, isWarning: true),
+            _ScoreGridItem(label: 'Productivity', score: _scores!.productivityIndex, color: AppTheme.success),
+            _ScoreGridItem(label: 'Distraction', score: _scores!.distractionScore, color: AppTheme.warning, isWarning: true),
+            _ScoreGridItem(label: 'Night Usage', score: _scores!.nightUsageRatio * 100, color: const Color(0xFF8B5CF6)),
+            _ScoreGridItem(label: 'Social Dep.', score: _scores!.socialMediaDependency, color: const Color(0xFF06B6D4), isWarning: true),
           ],
         ),
       ],
@@ -274,7 +300,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
         ),
         itemCount: 24,
         itemBuilder: (ctx, hour) {
-          final intensity = _heatmapData[hour] ?? 0;
+          final intensity = _heatmapData![hour] ?? 0;
           final opacity = intensity / 100;
           return Tooltip(
             message: '${hour == 0 ? 12 : hour > 12 ? hour - 12 : hour}${hour < 12 ? 'am' : 'pm'}: $intensity%',
@@ -318,7 +344,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   }
 
   Widget _buildAppsTab() {
-    final allApps = UsageStatsService.getMockWeeklyData();
+    final allApps = _weeklyData!;
     final appTotals = <String, AppUsageRecord>{};
     for (final r in allApps) {
       if (appTotals.containsKey(r.packageName)) {

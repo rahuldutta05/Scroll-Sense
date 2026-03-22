@@ -119,6 +119,9 @@ public class ScrollSenseAccessibilityService extends AccessibilityService {
         if (nightModeEnabled && (hour >= 23 || hour <= 5) && getSocialApps().contains(packageName)) {
             sendWarningNotification(packageName);
         }
+
+        // If we reach here, the app is NOT blocked by Focus Mode
+        stopService(new Intent(this, LockOverlayService.class));
     }
 
     private boolean isAppBlocked(String packageName, String blockedAppsJson) {
