@@ -1,0 +1,697 @@
+﻿Analyzing Scroll-Sense...                                       
+
+warning - Unused import: 'package:flutter_background_service/flutter_background_service.dart' - lib\main.dart:5:8 - unused_import
+warning - Unused import: 'services/usage_stats_service.dart' - lib\main.dart:14:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\main.dart:116:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\main.dart:156:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\main.dart:166:55 - deprecated_member_use
+warning - Unused import: 'dart:convert' - lib\models\mood_record.dart:1:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\blocked_apps_screen.dart:39:43 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\screens\blocked_apps_screen.dart:44:26 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\blocked_apps_screen.dart:62:39 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\blocked_apps_screen.dart:64:58 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\screens\blocked_apps_screen.dart:66:20 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\screens\blocked_apps_screen.dart:67:25 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\screens\blocked_apps_screen.dart:68:17 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\blocked_apps_screen.dart:114:73 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\screens\blocked_apps_screen.dart:124:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\blocked_apps_screen.dart:125:20 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\blocked_apps_screen.dart:158:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\blocked_apps_screen.dart:158:78 - deprecated_member_use
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - lib\screens\blocked_apps_screen.dart:170:11 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\blocked_apps_screen.dart:194:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\blocked_apps_screen.dart:208:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\calendar_tab.dart:96:53 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\calendar_tab.dart:191:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\home_tab.dart:137:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\home_tab.dart:171:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\home_tab.dart:183:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\home_tab.dart:220:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\home_tab.dart:226:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\home_tab.dart:253:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\home_tab.dart:268:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\home_tab.dart:314:57 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\home_tab.dart:321:53 - deprecated_member_use
+warning - Unused import: '../settings/settings_screen.dart' - lib\screens\dashboard\main_screen.dart:9:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\main_screen.dart:106:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\main_screen.dart:147:27 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\stats_tab.dart:116:53 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\stats_tab.dart:121:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\stats_tab.dart:141:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\stats_tab.dart:182:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\stats_tab.dart:200:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\stats_tab.dart:224:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\stats_tab.dart:270:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\stats_tab.dart:277:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\stats_tab.dart:298:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard\stats_tab.dart:311:63 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:145:7 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:145:22 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:145:37 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:145:52 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:146:7 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:146:22 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:146:37 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard_screen.dart:171:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard_screen.dart:204:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard_screen.dart:205:44 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:220:12 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\screens\dashboard_screen.dart:221:17 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:222:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:222:25 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:229:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:229:25 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:236:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:236:25 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:258:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:259:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:260:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:261:11 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard_screen.dart:309:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard_screen.dart:317:99 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:335:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:337:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:339:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\dashboard_screen.dart:341:9 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard_screen.dart:538:42 - deprecated_member_use
+warning - Unused import: '../models/hive_adapters.dart' - lib\screens\focus_screen.dart:5:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\focus_screen.dart:159:30 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\focus_screen.dart:192:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\focus_screen.dart:341:40 - deprecated_member_use
+   info - Statements in an if should be enclosed in a block - lib\screens\focus_screen.dart:371:31 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\screens\focus_screen.dart:372:22 - curly_braces_in_flow_control_structures
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\focus_screen.dart:378:53 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\screens\focus_screen.dart:421:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\focus_screen.dart:428:9 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\focus_screen.dart:467:46 - deprecated_member_use
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - lib\screens\focus_screen.dart:522:13 - deprecated_member_use
+warning - Unused import: '../widgets/score_ring.dart' - lib\screens\home_screen.dart:8:8 - unused_import
+   info - 'onBackground' is deprecated and shouldn't be used. Use onSurface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\screens\home_screen.dart:66:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:66:65 - deprecated_member_use
+   info - 'onBackground' is deprecated and shouldn't be used. Use onSurface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\screens\home_screen.dart:73:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:84:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:164:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:191:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:223:76 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:262:63 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:330:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:400:26 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:432:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:432:76 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:437:65 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:447:59 - deprecated_member_use
+warning - The value of the field '_count' isn't used - lib\screens\home_screen.dart:469:7 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:519:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:522:75 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:531:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\home_screen.dart:532:60 - deprecated_member_use
+warning - Unused import: '../services/digital_debt_service.dart' - lib\screens\insights_screen.dart:6:8 - unused_import
+   info - 'onBackground' is deprecated and shouldn't be used. Use onSurface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\screens\insights_screen.dart:47:60 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\screens\insights_screen.dart:61:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\insights_screen.dart:67:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\insights_screen.dart:73:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\insights_screen.dart:79:17 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\insights_screen.dart:155:30 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\insights_screen.dart:354:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\insights_screen.dart:355:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\insights_screen.dart:439:58 - deprecated_member_use
+   info - 'WillPopScope' is deprecated and shouldn't be used. Use PopScope instead. The Android predictive back feature will not work with WillPopScope. This feature was deprecated after v3.12.0-1.0.pre - lib\screens\lock_overlay_screen.dart:107:12 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:148:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:150:56 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:155:58 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:187:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:189:69 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:215:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:217:68 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\screens\lock_overlay_screen.dart:219:34 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\screens\lock_overlay_screen.dart:220:39 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\screens\lock_overlay_screen.dart:227:31 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\screens\lock_overlay_screen.dart:230:43 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\screens\lock_overlay_screen.dart:231:35 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\lock_overlay_screen.dart:232:35 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\lock_overlay_screen.dart:233:35 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\lock_overlay_screen.dart:234:35 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:280:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:292:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:317:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:328:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:330:56 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:353:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:395:30 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\lock_overlay_screen.dart:456:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\login\login_screen.dart:47:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\login\login_screen.dart:48:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\login\login_screen.dart:53:74 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\login\login_screen.dart:62:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\login\login_screen.dart:63:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\login\login_screen.dart:71:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\login\login_screen.dart:110:57 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\notifications\notification_screen.dart:147:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\notifications\notification_screen.dart:152:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\notifications\notification_screen.dart:158:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\onboarding_screen.dart:85:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\onboarding_screen.dart:87:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\onboarding_screen.dart:107:35 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\onboarding_screen.dart:171:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\onboarding_screen.dart:251:31 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\onboarding_screen.dart:253:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\onboarding_screen.dart:261:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\onboarding_screen.dart:272:71 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\onboarding_screen.dart:276:71 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\profile\profile_screen.dart:28:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\profile\profile_screen.dart:31:61 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\profile\profile_screen.dart:41:57 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\profile\profile_screen.dart:51:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\profile\profile_screen.dart:66:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\profile\profile_screen.dart:69:44 - deprecated_member_use
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - lib\screens\profile\profile_screen.dart:84:16 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\profile\profile_screen.dart:92:38 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\profile\profile_screen.dart:97:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\profile\profile_screen.dart:114:53 - deprecated_member_use
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\screens\profile\profile_screen.dart:151:37 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\screens\profile\profile_screen.dart:166:29 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\screens\profile\profile_screen.dart:174:33 - use_build_context_synchronously
+warning - Unused import: '../models/hive_adapters.dart' - lib\screens\reports_screen.dart:8:8 - unused_import
+   info - 'onBackground' is deprecated and shouldn't be used. Use onSurface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\screens\reports_screen.dart:34:56 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\reports_screen.dart:132:37 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\screens\reports_screen.dart:182:11 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\screens\reports_screen.dart:184:23 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\screens\reports_screen.dart:186:15 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\reports_screen.dart:221:75 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\reports_screen.dart:260:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\reports_screen.dart:262:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\reports_screen.dart:282:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\reports_screen.dart:282:86 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\reports_screen.dart:285:57 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\screens\reports_screen.dart:366:12 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\screens\reports_screen.dart:368:17 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\screens\reports_screen.dart:371:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\reports_screen.dart:379:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\reports_screen.dart:387:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\reports_screen.dart:415:22 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\reports_screen.dart:459:31 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\reports_screen.dart:498:53 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\reports_screen.dart:535:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\reports_screen.dart:536:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\reports_screen.dart:539:58 - deprecated_member_use
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - lib\screens\settings\settings_screen.dart:25:24 - deprecated_member_use
+   info - Statements in an if should be enclosed in a block - lib\screens\settings\settings_screen.dart:32:26 - curly_braces_in_flow_control_structures
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\settings\settings_screen.dart:52:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\settings\settings_screen.dart:60:38 - deprecated_member_use
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\screens\settings\settings_screen.dart:73:37 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\screens\settings\settings_screen.dart:87:37 - use_build_context_synchronously
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\screens\settings\settings_screen.dart:95:101 - use_build_context_synchronously
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\settings_screen.dart:129:71 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\screens\settings_screen.dart:277:7 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\screens\settings_screen.dart:278:7 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\settings_screen.dart:332:24 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\settings_screen.dart:364:20 - deprecated_member_use
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - lib\screens\settings_screen.dart:371:60 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\settings_screen.dart:402:60 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\settings_screen.dart:448:20 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\settings_screen.dart:475:30 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\splash_screen.dart:69:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\splash_screen.dart:98:45 - deprecated_member_use
+warning - Unused import: 'package:flutter/material.dart' - lib\services\background_service.dart:5:8 - unused_import
+warning - The value of the local variable 'lastAppStart' isn't used - lib\services\background_service.dart:60:13 - unused_local_variable
+   info - The private field _continuousMinutes could be 'final' - lib\services\doom_scroll_detector.dart:24:7 - prefer_final_fields
+warning - The value of the field '_continuousMinutes' isn't used - lib\services\doom_scroll_detector.dart:24:7 - unused_field
+   info - Statements in a for should be enclosed in a block - lib\services\expense_store.dart:61:26 - curly_braces_in_flow_control_structures
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\services\intervention_service.dart:273:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\services\intervention_service.dart:276:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\services\intervention_service.dart:290:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\services\intervention_service.dart:291:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\services\intervention_service.dart:299:80 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\services\intervention_service.dart:329:65 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\services\intervention_service.dart:330:22 - prefer_const_constructors
+   info - Statements in an if should be enclosed in a block - lib\services\intervention_service.dart:372:27 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\services\intervention_service.dart:373:12 - curly_braces_in_flow_control_structures
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\services\intervention_service.dart:397:52 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\services\intervention_service.dart:398:35 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\services\intervention_service.dart:401:46 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\services\intervention_service.dart:413:57 - deprecated_member_use
+   info - Statements in a for should be enclosed in a block - lib\services\notif_store.dart:24:56 - curly_braces_in_flow_control_structures
+   info - Unnecessary braces in a string interpolation - lib\services\notif_store.dart:28:18 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\services\notif_store.dart:30:17 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\services\notif_store.dart:32:38 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\services\notif_store.dart:34:26 - unnecessary_brace_in_string_interps
+   info - Unnecessary braces in a string interpolation - lib\services\notif_store.dart:36:27 - unnecessary_brace_in_string_interps
+   info - Statements in a for should be enclosed in a block - lib\utils\analytics.dart:19:26 - curly_braces_in_flow_control_structures
+   info - 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\utils\app_theme.dart:32:9 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\utils\app_theme.dart:62:35 - deprecated_member_use
+   info - 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\utils\app_theme.dart:76:9 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\app_usage_card.dart:32:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\app_usage_card.dart:87:31 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\app_usage_card.dart:124:45 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\widgets\digital_debt_card.dart:14:22 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\digital_debt_card.dart:39:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\digital_debt_card.dart:71:42 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\digital_debt_card.dart:115:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\digital_debt_card.dart:123:45 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\widgets\digital_debt_card.dart:138:30 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\digital_debt_card.dart:167:35 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\widgets\digital_debt_card.dart:235:20 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\expense_tile.dart:36:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\expense_tile.dart:39:70 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\expense_tile.dart:80:70 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\expense_tile.dart:96:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\expense_tile.dart:178:47 - deprecated_member_use
+   info - Statements in an if should be enclosed in a block - lib\widgets\expense_tile.dart:216:14 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - lib\widgets\expense_tile.dart:216:38 - curly_braces_in_flow_control_structures
+   info - Use 'const' with the constructor to improve performance - lib\widgets\intervention_history_card.dart:22:16 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\widgets\intervention_history_card.dart:23:21 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\widgets\intervention_history_card.dart:24:13 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\intervention_history_card.dart:58:44 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\widgets\intervention_history_card.dart:63:28 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\intervention_history_card.dart:75:69 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\intervention_history_card.dart:105:28 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\intervention_history_card.dart:123:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\intervention_history_card.dart:142:28 - deprecated_member_use
+   info - 'parent' is deprecated and shouldn't be used. Will be removed in 3.0.0. See https://github.com/rrousselGit/riverpod/issues/3261#issuecomment-1973514033 - lib\widgets\mood_checkin_sheet.dart:35:9 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\mood_checkin_sheet.dart:103:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\mood_checkin_sheet.dart:139:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\mood_checkin_sheet.dart:145:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\mood_checkin_sheet.dart:181:54 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\recovery_curve_card.dart:83:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\recovery_curve_card.dart:195:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\recovery_curve_card.dart:195:57 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\recovery_curve_card.dart:209:33 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - lib\widgets\recovery_curve_card.dart:223:12 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\widgets\recovery_curve_card.dart:225:17 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\widgets\recovery_curve_card.dart:226:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\widgets\recovery_curve_card.dart:228:9 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\recovery_curve_card.dart:303:22 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\score_ring.dart:59:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\why_opening_dialog.dart:55:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\why_opening_dialog.dart:123:53 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\why_opening_dialog.dart:140:36 - deprecated_member_use
+  error - Target of URI doesn't exist: 'screens/splash_screen.dart' - scrollsense_final\lib\main.dart:7:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: 'screens/onboarding_screen.dart' - scrollsense_final\lib\main.dart:13:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: 'utils/app_theme.dart' - scrollsense_final\lib\main.dart:19:8 - uri_does_not_exist
+  error - The function 'AppUsageRecordAdapter' isn't defined - scrollsense_final\lib\main.dart:25:24 - undefined_function
+  error - The function 'FocusSessionAdapter' isn't defined - scrollsense_final\lib\main.dart:26:24 - undefined_function
+  error - The function 'AchievementAdapter' isn't defined - scrollsense_final\lib\main.dart:27:24 - undefined_function
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\main.dart:61:14 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\main.dart:62:18 - undefined_identifier
+  error - The name 'SplashScreen' isn't a class - scrollsense_final\lib\main.dart:66:35 - creation_with_non_type
+  error - The name 'OnboardingScreen' isn't a class - scrollsense_final\lib\main.dart:67:39 - creation_with_non_type
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\main.dart:126:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\main.dart:166:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\main.dart:176:55 - deprecated_member_use
+  error - Target of URI hasn't been generated: 'file:///E:/GitHub/Scroll-Sense/scrollsense_final/lib/models/hive_adapters.g.dart' - scrollsense_final\lib\models\hive_adapters.dart:3:6 - uri_has_not_been_generated
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\screens\blocked_apps_screen.dart:4:8 - uri_does_not_exist
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\blocked_apps_screen.dart:39:26 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\blocked_apps_screen.dart:45:28 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\blocked_apps_screen.dart:62:22 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\blocked_apps_screen.dart:64:41 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\blocked_apps_screen.dart:68:57 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\blocked_apps_screen.dart:114:73 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\blocked_apps_screen.dart:124:11 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\blocked_apps_screen.dart:125:20 - prefer_const_constructors
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\blocked_apps_screen.dart:158:30 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\blocked_apps_screen.dart:158:78 - deprecated_member_use
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - scrollsense_final\lib\screens\blocked_apps_screen.dart:170:11 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\blocked_apps_screen.dart:170:24 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\blocked_apps_screen.dart:193:32 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\blocked_apps_screen.dart:194:39 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\blocked_apps_screen.dart:208:51 - deprecated_member_use
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\screens\dashboard_screen.dart:3:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../services/usage_stats_service.dart' - scrollsense_final\lib\screens\dashboard_screen.dart:4:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../widgets/app_usage_card.dart' - scrollsense_final\lib\screens\dashboard_screen.dart:6:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../widgets/score_ring.dart' - scrollsense_final\lib\screens\dashboard_screen.dart:7:8 - uri_does_not_exist
+  error - Undefined name 'UsageStatsService' - scrollsense_final\lib\screens\dashboard_screen.dart:34:27 - undefined_identifier
+  error - Undefined name 'UsageStatsService' - scrollsense_final\lib\screens\dashboard_screen.dart:35:26 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:78:27 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:80:31 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:134:79 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:135:87 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:136:93 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:137:91 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\dashboard_screen.dart:177:40 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:201:28 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:210:27 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:211:27 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:278:18 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:285:18 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:388:24 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\dashboard_screen.dart:396:99 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:414:96 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:416:100 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:418:98 - undefined_identifier
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\dashboard_screen.dart:420:9 - prefer_const_constructors
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:465:28 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:465:57 - undefined_identifier
+  error - The method 'AppUsageCard' isn't defined for the type '_DashboardScreenState' - scrollsense_final\lib\screens\dashboard_screen.dart:477:30 - undefined_method
+  error - The method 'ScoreRing' isn't defined for the type '_ScoreGridItem' - scrollsense_final\lib\screens\dashboard_screen.dart:503:11 - undefined_method
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:561:31 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:561:50 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:567:33 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\dashboard_screen.dart:567:52 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\dashboard_screen.dart:617:42 - deprecated_member_use
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\screens\focus_screen.dart:7:8 - uri_does_not_exist
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:208:13 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\focus_screen.dart:221:61 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:221:61 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\focus_screen.dart:222:74 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:222:74 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:241:38 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\focus_screen.dart:242:69 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:242:69 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:253:32 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:269:24 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:338:34 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:389:23 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:390:23 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:396:66 - undefined_identifier
+   info - Statements in an if should be enclosed in a block - scrollsense_final\lib\screens\focus_screen.dart:420:31 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - scrollsense_final\lib\screens\focus_screen.dart:421:22 - curly_braces_in_flow_control_structures
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:427:37 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:430:39 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\focus_screen.dart:442:69 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:442:69 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:480:28 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\focus_screen.dart:486:69 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:597:35 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:598:35 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:609:39 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:646:34 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:687:29 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:690:31 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\focus_screen.dart:726:53 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:726:53 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\focus_screen.dart:737:65 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:737:65 - undefined_identifier
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - scrollsense_final\lib\screens\focus_screen.dart:742:13 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:742:26 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:766:18 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:768:37 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\focus_screen.dart:780:24 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\focus_screen.dart:780:24 - undefined_identifier
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\screens\home_screen.dart:4:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../services/usage_stats_service.dart' - scrollsense_final\lib\screens\home_screen.dart:5:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../widgets/score_ring.dart' - scrollsense_final\lib\screens\home_screen.dart:8:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../widgets/app_usage_card.dart' - scrollsense_final\lib\screens\home_screen.dart:9:8 - uri_does_not_exist
+  error - Undefined name 'UsageStatsService' - scrollsense_final\lib\screens\home_screen.dart:32:24 - undefined_identifier
+   info - 'onBackground' is deprecated and shouldn't be used. Use onSurface instead. This feature was deprecated after v3.18.0-0.1.pre - scrollsense_final\lib\screens\home_screen.dart:68:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\home_screen.dart:68:65 - deprecated_member_use
+   info - 'onBackground' is deprecated and shouldn't be used. Use onSurface instead. This feature was deprecated after v3.18.0-0.1.pre - scrollsense_final\lib\screens\home_screen.dart:75:52 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:86:30 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\home_screen.dart:89:75 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:89:75 - undefined_identifier
+  error - The method 'ScoreCard' isn't defined for the type '_HomeScreenState' - scrollsense_final\lib\screens\home_screen.dart:134:25 - undefined_method
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:137:18 - undefined_identifier
+  error - The method 'ScoreCard' isn't defined for the type '_HomeScreenState' - scrollsense_final\lib\screens\home_screen.dart:141:25 - undefined_method
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:144:18 - undefined_identifier
+  error - The method 'ScoreCard' isn't defined for the type '_HomeScreenState' - scrollsense_final\lib\screens\home_screen.dart:149:25 - undefined_method
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:152:18 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\home_screen.dart:172:33 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:199:26 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\home_screen.dart:205:28 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:205:28 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\home_screen.dart:231:76 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:282:30 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:282:49 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:302:22 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:309:22 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:316:22 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:323:22 - undefined_identifier
+  error - The method 'AppUsageCard' isn't defined for the type '_HomeScreenState' - scrollsense_final\lib\screens\home_screen.dart:341:47 - undefined_method
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:351:20 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:351:38 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\home_screen.dart:421:26 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\home_screen.dart:453:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\home_screen.dart:453:76 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:458:33 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\home_screen.dart:458:65 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\home_screen.dart:468:59 - deprecated_member_use
+warning - The value of the field '_count' isn't used - scrollsense_final\lib\screens\home_screen.dart:490:7 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\home_screen.dart:540:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\home_screen.dart:543:75 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:552:24 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\home_screen.dart:553:43 - undefined_identifier
+  error - Target of URI doesn't exist: '../models/mood_record.dart' - scrollsense_final\lib\screens\insights_screen.dart:4:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\screens\insights_screen.dart:11:8 - uri_does_not_exist
+   info - 'onBackground' is deprecated and shouldn't be used. Use onSurface instead. This feature was deprecated after v3.18.0-0.1.pre - scrollsense_final\lib\screens\insights_screen.dart:47:60 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\insights_screen.dart:61:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\insights_screen.dart:67:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\insights_screen.dart:73:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\insights_screen.dart:79:17 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\insights_screen.dart:155:30 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\insights_screen.dart:178:32 - undefined_identifier
+  error - The name 'MoodRecord' isn't a type, so it can't be used as a type argument - scrollsense_final\lib\screens\insights_screen.dart:195:14 - non_type_as_type_argument
+  error - The property 'moodEmoji' can't be unconditionally accessed because the receiver can be 'null' - scrollsense_final\lib\screens\insights_screen.dart:228:26 - unchecked_use_of_nullable_value
+  error - The property 'timestamp' can't be unconditionally accessed because the receiver can be 'null' - scrollsense_final\lib\screens\insights_screen.dart:231:33 - unchecked_use_of_nullable_value
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\insights_screen.dart:337:28 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\insights_screen.dart:343:32 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\insights_screen.dart:354:27 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\insights_screen.dart:355:27 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\insights_screen.dart:439:58 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\insights_screen.dart:467:27 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\insights_screen.dart:468:27 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\insights_screen.dart:470:12 - undefined_identifier
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\screens\lock_overlay_screen.dart:5:8 - uri_does_not_exist
+   info - 'WillPopScope' is deprecated and shouldn't be used. Use PopScope instead. The Android predictive back feature will not work with WillPopScope. This feature was deprecated after v3.12.0-1.0.pre - scrollsense_final\lib\screens\lock_overlay_screen.dart:107:12 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:148:38 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:150:40 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:155:42 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\lock_overlay_screen.dart:163:38 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:163:38 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:187:34 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:189:53 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\lock_overlay_screen.dart:193:57 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:193:57 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\lock_overlay_screen.dart:215:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\lock_overlay_screen.dart:217:68 - deprecated_member_use
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\lock_overlay_screen.dart:219:34 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - scrollsense_final\lib\screens\lock_overlay_screen.dart:220:39 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\lock_overlay_screen.dart:227:31 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - scrollsense_final\lib\screens\lock_overlay_screen.dart:230:43 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\lock_overlay_screen.dart:231:35 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\lock_overlay_screen.dart:232:35 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\lock_overlay_screen.dart:233:35 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\lock_overlay_screen.dart:234:35 - prefer_const_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\lock_overlay_screen.dart:280:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\lock_overlay_screen.dart:292:47 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:294:44 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:294:63 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:301:49 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:301:68 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\lock_overlay_screen.dart:317:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\lock_overlay_screen.dart:328:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\lock_overlay_screen.dart:330:56 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\lock_overlay_screen.dart:353:50 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\lock_overlay_screen.dart:395:30 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:456:18 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\lock_overlay_screen.dart:457:37 - undefined_identifier
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\screens\reports_screen.dart:3:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../widgets/score_ring.dart' - scrollsense_final\lib\screens\reports_screen.dart:4:8 - uri_does_not_exist
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:44:27 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:46:31 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:126:20 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\reports_screen.dart:142:39 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:197:111 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:198:90 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:199:102 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:200:83 - undefined_identifier
+  error - Expected to find ',' - scrollsense_final\lib\screens\reports_screen.dart:223:27 - expected_token
+  error - Too many positional arguments: 1 expected, but 8 found - scrollsense_final\lib\screens\reports_screen.dart:223:27 - extra_positional_arguments_could_be_named
+  error - Undefined name 's' - scrollsense_final\lib\screens\reports_screen.dart:223:27 - undefined_identifier
+  error - Expected to find ',' - scrollsense_final\lib\screens\reports_screen.dart:223:29 - expected_token
+  error - Undefined name 'completed' - scrollsense_final\lib\screens\reports_screen.dart:223:29 - undefined_identifier
+  error - Expected to find ',' - scrollsense_final\lib\screens\reports_screen.dart:223:39 - expected_token
+  error - Undefined name 'focus' - scrollsense_final\lib\screens\reports_screen.dart:223:39 - undefined_identifier
+  error - Expected to find ',' - scrollsense_final\lib\screens\reports_screen.dart:223:45 - expected_token
+  error - Undefined name 'sessions' - scrollsense_final\lib\screens\reports_screen.dart:223:45 - undefined_identifier
+  error - Expected to find ',' - scrollsense_final\lib\screens\reports_screen.dart:223:53 - expected_token
+  error - Unterminated string literal - scrollsense_final\lib\screens\reports_screen.dart:223:102 - unterminated_string_literal
+  error - Expected to find ',' - scrollsense_final\lib\screens\reports_screen.dart:224:11 - expected_token
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:240:38 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:250:29 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:252:33 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\reports_screen.dart:253:45 - deprecated_member_use
+  error - Expected to find ')' - scrollsense_final\lib\screens\reports_screen.dart:263:9 - expected_token
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:343:44 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\reports_screen.dart:344:75 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:344:75 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\reports_screen.dart:357:38 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:357:38 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\reports_screen.dart:425:32 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:425:32 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\reports_screen.dart:444:32 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:444:32 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\reports_screen.dart:529:56 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:583:37 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:585:37 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\reports_screen.dart:615:73 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:617:22 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:620:22 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:621:29 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:623:22 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:624:29 - undefined_identifier
+   info - Use 'const' for final variables initialized to a constant value - scrollsense_final\lib\screens\reports_screen.dart:671:9 - prefer_const_declarations
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:788:45 - undefined_identifier
+warning - The value of the local variable 'isPositive' isn't used - scrollsense_final\lib\screens\reports_screen.dart:822:11 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\reports_screen.dart:828:31 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:901:36 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\reports_screen.dart:902:67 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:902:67 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:937:15 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\reports_screen.dart:938:50 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:941:41 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\screens\reports_screen.dart:968:59 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\reports_screen.dart:968:59 - undefined_identifier
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\screens\settings_screen.dart:6:8 - uri_does_not_exist
+   info - Statements in an if should be enclosed in a block - scrollsense_final\lib\screens\settings_screen.dart:50:20 - curly_braces_in_flow_control_structures
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:112:37 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:112:56 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:120:40 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:120:59 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:128:34 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:128:53 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:136:40 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:136:59 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:165:22 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\settings_screen.dart:202:34 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\settings_screen.dart:235:40 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:247:27 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:248:27 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:249:27 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\settings_screen.dart:269:94 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\settings_screen.dart:271:58 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\settings_screen.dart:295:37 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:315:16 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:327:24 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:370:16 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:377:16 - undefined_identifier
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\settings_screen.dart:384:7 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\screens\settings_screen.dart:385:7 - prefer_const_constructors
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:391:16 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:407:22 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\settings_screen.dart:422:69 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:446:62 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:467:62 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\settings_screen.dart:496:48 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:502:28 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:523:24 - undefined_identifier
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - scrollsense_final\lib\screens\settings_screen.dart:532:60 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:556:30 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\screens\settings_screen.dart:595:24 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\screens\settings_screen.dart:621:54 - deprecated_member_use
+  error - Target of URI doesn't exist: 'usage_stats_service.dart' - scrollsense_final\lib\services\background_service.dart:8:8 - uri_does_not_exist
+warning - The value of the local variable 'lastAppStart' isn't used - scrollsense_final\lib\services\background_service.dart:60:13 - unused_local_variable
+  error - Undefined name 'UsageStatsService' - scrollsense_final\lib\services\background_service.dart:66:33 - undefined_identifier
+  error - Target of URI doesn't exist: 'usage_stats_service.dart' - scrollsense_final\lib\services\digital_debt_service.dart:3:8 - uri_does_not_exist
+  error - Undefined name 'UsageStatsService' - scrollsense_final\lib\services\digital_debt_service.dart:77:32 - undefined_identifier
+  error - Undefined name 'UsageStatsService' - scrollsense_final\lib\services\digital_debt_service.dart:82:33 - undefined_identifier
+  error - Undefined name 'UsageStatsService' - scrollsense_final\lib\services\digital_debt_service.dart:111:33 - undefined_identifier
+  error - Target of URI doesn't exist: 'usage_stats_service.dart' - scrollsense_final\lib\services\doom_scroll_detector.dart:5:8 - uri_does_not_exist
+   info - The private field _continuousMinutes could be 'final' - scrollsense_final\lib\services\doom_scroll_detector.dart:24:7 - prefer_final_fields
+warning - The value of the field '_continuousMinutes' isn't used - scrollsense_final\lib\services\doom_scroll_detector.dart:24:7 - unused_field
+  error - Undefined name 'UsageStatsService' - scrollsense_final\lib\services\doom_scroll_detector.dart:48:33 - undefined_identifier
+  error - Undefined name 'UsageStatsService' - scrollsense_final\lib\services\doom_scroll_detector.dart:218:27 - undefined_identifier
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\services\intervention_service.dart:6:8 - uri_does_not_exist
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\services\intervention_service.dart:122:32 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\services\intervention_service.dart:273:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\services\intervention_service.dart:276:50 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\services\intervention_service.dart:285:40 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\services\intervention_service.dart:285:58 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\services\intervention_service.dart:290:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\services\intervention_service.dart:291:51 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\services\intervention_service.dart:299:80 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\services\intervention_service.dart:329:48 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\services\intervention_service.dart:330:59 - undefined_identifier
+   info - Statements in an if should be enclosed in a block - scrollsense_final\lib\services\intervention_service.dart:372:27 - curly_braces_in_flow_control_structures
+   info - Statements in an if should be enclosed in a block - scrollsense_final\lib\services\intervention_service.dart:373:12 - curly_braces_in_flow_control_structures
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\services\intervention_service.dart:397:52 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\services\intervention_service.dart:398:65 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\services\intervention_service.dart:401:106 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\services\intervention_service.dart:411:32 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\services\intervention_service.dart:413:40 - undefined_identifier
+  error - Target of URI doesn't exist: '../models/mood_record.dart' - scrollsense_final\lib\services\mood_service.dart:4:8 - uri_does_not_exist
+  error - Undefined class 'MoodRecord' - scrollsense_final\lib\services\mood_service.dart:16:25 - undefined_class
+  error - The name 'MoodRecord' isn't a type, so it can't be used as a type argument - scrollsense_final\lib\services\mood_service.dart:21:15 - non_type_as_type_argument
+  error - Undefined name 'MoodRecord' - scrollsense_final\lib\services\mood_service.dart:25:21 - undefined_identifier
+  error - The property 'timestamp' can't be unconditionally accessed because the receiver can be 'null' - scrollsense_final\lib\services\mood_service.dart:26:25 - unchecked_use_of_nullable_value
+  error - The property 'timestamp' can't be unconditionally accessed because the receiver can be 'null' - scrollsense_final\lib\services\mood_service.dart:28:26 - unchecked_use_of_nullable_value
+  error - The property 'timestamp' can't be unconditionally accessed because the receiver can be 'null' - scrollsense_final\lib\services\mood_service.dart:28:48 - unchecked_use_of_nullable_value
+  error - The name 'MoodRecord' isn't a type, so it can't be used as a type argument - scrollsense_final\lib\services\mood_service.dart:32:15 - non_type_as_type_argument
+  error - The property 'timestamp' can't be unconditionally accessed because the receiver can be 'null' - scrollsense_final\lib\services\mood_service.dart:68:18 - unchecked_use_of_nullable_value
+  error - The property 'timestamp' can't be unconditionally accessed because the receiver can be 'null' - scrollsense_final\lib\services\mood_service.dart:68:51 - unchecked_use_of_nullable_value
+  error - The property 'mood' can't be unconditionally accessed because the receiver can be 'null' - scrollsense_final\lib\services\mood_service.dart:73:42 - unchecked_use_of_nullable_value
+  error - The operator '+' can't be unconditionally invoked because the receiver can be 'null' - scrollsense_final\lib\services\mood_service.dart:73:67 - unchecked_use_of_nullable_value
+  error - The name 'MoodRecord' isn't a type, so it can't be used as a type argument - scrollsense_final\lib\services\mood_service.dart:91:49 - non_type_as_type_argument
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\widgets\digital_debt_card.dart:4:8 - uri_does_not_exist
+   info - Use 'const' with the constructor to improve performance - scrollsense_final\lib\widgets\digital_debt_card.dart:14:22 - prefer_const_constructors
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\digital_debt_card.dart:29:35 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\digital_debt_card.dart:29:53 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\digital_debt_card.dart:39:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\digital_debt_card.dart:71:42 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\digital_debt_card.dart:115:34 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\digital_debt_card.dart:123:28 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\digital_debt_card.dart:139:32 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\digital_debt_card.dart:167:18 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\widgets\digital_debt_card.dart:173:61 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\digital_debt_card.dart:173:61 - undefined_identifier
+  error - Invalid constant value - scrollsense_final\lib\widgets\digital_debt_card.dart:178:24 - invalid_constant
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\digital_debt_card.dart:178:24 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\digital_debt_card.dart:238:22 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\digital_debt_card.dart:247:26 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\digital_debt_card.dart:267:30 - undefined_identifier
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\widgets\intervention_history_card.dart:4:8 - uri_does_not_exist
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\intervention_history_card.dart:24:53 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\intervention_history_card.dart:58:28 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\intervention_history_card.dart:63:45 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\intervention_history_card.dart:75:69 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\intervention_history_card.dart:105:28 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\intervention_history_card.dart:123:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\intervention_history_card.dart:142:28 - deprecated_member_use
+  error - Target of URI doesn't exist: '../models/mood_record.dart' - scrollsense_final\lib\widgets\mood_checkin_sheet.dart:4:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\widgets\mood_checkin_sheet.dart:6:8 - uri_does_not_exist
+   info - 'parent' is deprecated and shouldn't be used. Will be removed in 3.0.0. See https://github.com/rrousselGit/riverpod/issues/3261#issuecomment-1973514033 - scrollsense_final\lib\widgets\mood_checkin_sheet.dart:35:9 - deprecated_member_use
+  error - The method 'MoodRecord' isn't defined for the type '_MoodCheckinSheetState' - scrollsense_final\lib\widgets\mood_checkin_sheet.dart:64:20 - undefined_method
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\mood_checkin_sheet.dart:103:34 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\mood_checkin_sheet.dart:139:27 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\mood_checkin_sheet.dart:144:29 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\mood_checkin_sheet.dart:145:41 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\mood_checkin_sheet.dart:161:47 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\mood_checkin_sheet.dart:179:34 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\mood_checkin_sheet.dart:181:54 - deprecated_member_use
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\widgets\recovery_curve_card.dart:5:8 - uri_does_not_exist
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\recovery_curve_card.dart:83:40 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\recovery_curve_card.dart:115:42 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\recovery_curve_card.dart:116:46 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\recovery_curve_card.dart:130:43 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\recovery_curve_card.dart:130:62 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\recovery_curve_card.dart:138:47 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\recovery_curve_card.dart:138:66 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\recovery_curve_card.dart:195:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\recovery_curve_card.dart:195:57 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\recovery_curve_card.dart:209:33 - deprecated_member_use
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\recovery_curve_card.dart:226:21 - undefined_identifier
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\recovery_curve_card.dart:228:21 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\recovery_curve_card.dart:303:22 - deprecated_member_use
+  error - Target of URI doesn't exist: '../utils/app_theme.dart' - scrollsense_final\lib\widgets\why_opening_dialog.dart:2:8 - uri_does_not_exist
+  error - Undefined name 'AppTheme' - scrollsense_final\lib\widgets\why_opening_dialog.dart:55:24 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\why_opening_dialog.dart:123:53 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - scrollsense_final\lib\widgets\why_opening_dialog.dart:140:36 - deprecated_member_use
+  error - The name 'MyApp' isn't a class - test\widget_test.dart:16:35 - creation_with_non_type
+
+flutter : 675 issues 
+found. (ran in 3.0s)
+At line:1 char:1
++ flutter analyze > ana
+lysis_results_v4.txt 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (675 issues fo   
+ und. (ran in 3.0s)    
+:String) [], Remot    
+eException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 

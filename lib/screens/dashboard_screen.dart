@@ -6,15 +6,18 @@ import '../models/hive_adapters.dart';
 import '../widgets/app_usage_card.dart';
 import '../widgets/score_ring.dart';
 import '../services/doom_scroll_detector.dart';
+import '../services/focus_session_store.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../services/intervention_config_service.dart';
 
-class DashboardScreen extends StatefulWidget {
+class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProviderStateMixin {
+class _DashboardScreenState extends ConsumerState<DashboardScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   Map<int, int>? _heatmapData;
   List<AppUsageRecord>? _weeklyData;
@@ -141,10 +144,13 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   }
 
   Widget _buildFocusTrend() {
-    final spots = [
-      FlSpot(0, 55), FlSpot(1, 62), FlSpot(2, 48), FlSpot(3, 70),
-      FlSpot(4, 65), FlSpot(5, 78), FlSpot(6, 72),
-    ];
+    // Real focus minutes per day → normalize to 0-100 score (100 = 2h+ focus)
+    final store = FocusSessionStore();
+    final daily = store.dailyFocusMinutesLast7();
+    final spots = List.generate(7, (i) {
+      final score = (daily[i] / 120 * 100).clamp(0.0, 100.0);
+      return FlSpot(i.toDouble(), score);
+    });
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -217,25 +223,64 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   }
 
   Widget _buildKeyStats() {
+    // Derive real stats from weekly usage data
+    final allApps = _weeklyData ?? [];
+    String mostDistracting = '—';
+    String mostDistractingEmoji = '📱';
+    String longestSession = '—';
+
+    if (allApps.isNotEmpty) {
+      // Most used social app
+      const social = {
+        'com.instagram.android': ('Instagram', '📸'),
+        'com.tiktok.android': ('TikTok', '🎵'),
+        'com.twitter.android': ('Twitter', '🐦'),
+        'com.snapchat.android': ('Snapchat', '👻'),
+        'com.reddit.frontpage': ('Reddit', '🔴'),
+        'com.facebook.katana': ('Facebook', '👥'),
+        'com.google.android.youtube': ('YouTube', '▶️'),
+      };
+      final socialApps = allApps.where((r) => social.containsKey(r.packageName));
+      if (socialApps.isNotEmpty) {
+        final top = socialApps.reduce((a, b) => a.durationSeconds > b.durationSeconds ? a : b);
+        mostDistracting = social[top.packageName]?.$1 ?? top.appName;
+        mostDistractingEmoji = social[top.packageName]?.$2 ?? '📱';
+      }
+
+      // Longest single session
+      final maxSecs = allApps.map((r) => r.durationSeconds).reduce((a, b) => a > b ? a : b);
+      final lh = maxSecs ~/ 3600;
+      final lm = (maxSecs % 3600) ~/ 60;
+      longestSession = lh > 0 ? '${lh}h ${lm}m' : '${lm}m';
+    }
+
+    // Peak distraction hour from heatmap
+    String peakHour = '—';
+    if (_heatmapData != null && _heatmapData!.isNotEmpty) {
+      final peak = _heatmapData!.entries.reduce((a, b) => a.value > b.value ? a : b);
+      final h = peak.key;
+      peakHour = h == 0 ? '12 AM' : h < 12 ? '$h AM' : h == 12 ? '12 PM' : '${h - 12} PM';
+    }
+
     return Row(
       children: [
         Expanded(child: _StatCard(
           label: 'Most Distracting',
-          value: 'TikTok',
-          emoji: '🎵',
+          value: mostDistracting,
+          emoji: mostDistractingEmoji,
           color: const Color(0xFF69C9D0),
         )),
         const SizedBox(width: 12),
         Expanded(child: _StatCard(
           label: 'Peak Distraction',
-          value: '9 PM',
+          value: peakHour,
           emoji: '⏰',
           color: AppTheme.accent,
         )),
         const SizedBox(width: 12),
         Expanded(child: _StatCard(
           label: 'Longest Session',
-          value: '1h 34m',
+          value: longestSession,
           emoji: '📱',
           color: AppTheme.warning,
         )),
@@ -244,6 +289,20 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
   }
 
   Widget _buildWeeklyComparison() {
+    final store = FocusSessionStore();
+    final sessionCount = store.getLast7Days().where((s) => s.completed).length;
+    final focusMins = store.weeklyFocusMinutes();
+    final fh = focusMins ~/ 60;
+    final fm = focusMins % 60;
+
+    final events = ref.read(interventionLogProvider);
+    final weekStart = DateTime.now().subtract(const Duration(days: 7));
+    final doomScrolls = events.where((e) => e.timestamp.isAfter(weekStart)).length;
+
+    final totalSecs = _weeklyData?.fold(0, (s, r) => s + r.durationSeconds) ?? 0;
+    final wh = totalSecs ~/ 3600;
+    final wm = (totalSecs % 3600) ~/ 60;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -253,12 +312,32 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Week Comparison', style: Theme.of(context).textTheme.titleMedium),
+          Text('This Week', style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 16),
-          _ComparisonRow(label: 'Screen Time', thisWeek: '48h 20m', lastWeek: '52h 10m', improved: true),
-          _ComparisonRow(label: 'Focus Sessions', thisWeek: '12', lastWeek: '8', improved: true),
-          _ComparisonRow(label: 'Doom Scrolls', thisWeek: '23', lastWeek: '18', improved: false),
-          _ComparisonRow(label: 'Focus Score', thisWeek: '72', lastWeek: '65', improved: true),
+          _ComparisonRow(
+            label: 'Screen Time',
+            thisWeek: '${wh}h ${wm}m',
+            lastWeek: '—',
+            improved: totalSecs < 48 * 3600,
+          ),
+          _ComparisonRow(
+            label: 'Focus Sessions',
+            thisWeek: '$sessionCount',
+            lastWeek: '—',
+            improved: sessionCount > 0,
+          ),
+          _ComparisonRow(
+            label: 'Interventions',
+            thisWeek: '$doomScrolls',
+            lastWeek: '—',
+            improved: doomScrolls == 0,
+          ),
+          _ComparisonRow(
+            label: 'Focus Time',
+            thisWeek: '${fh}h ${fm}m',
+            lastWeek: '—',
+            improved: focusMins > 60,
+          ),
         ],
       ),
     );

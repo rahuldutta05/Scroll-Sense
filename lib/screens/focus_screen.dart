@@ -2,59 +2,97 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:scroll_sense/main.dart';
+import 'package:scroll_sense/models/hive_adapters.dart';
+import '../widgets/mood_checkin_sheet.dart';
 import '../utils/app_theme.dart';
+import '../services/focus_session_store.dart';
+import '../services/intervention_config_service.dart';
 
 final focusModeProvider = StateNotifierProvider<FocusModeNotifier, FocusModeState>((ref) {
-  return FocusModeNotifier();
+  return FocusModeNotifier(ref);
 });
 
 class FocusModeState {
   final bool isActive;
   final int remainingSeconds;
+  final int totalSeconds;      // ← NEW: original duration for accurate progress
   final String sessionType;
   final List<String> blockedApps;
   final int pomodoroCount;
+  final String? sessionId;     // ← NEW: tracks current session in Hive
 
   FocusModeState({
     this.isActive = false,
     this.remainingSeconds = 0,
+    this.totalSeconds = 0,
     this.sessionType = 'custom',
     this.blockedApps = const [],
     this.pomodoroCount = 0,
+    this.sessionId,
   });
 
-  FocusModeState copyWith({bool? isActive, int? remainingSeconds, String? sessionType, List<String>? blockedApps, int? pomodoroCount}) {
+  FocusModeState copyWith({
+    bool? isActive,
+    int? remainingSeconds,
+    int? totalSeconds,
+    String? sessionType,
+    List<String>? blockedApps,
+    int? pomodoroCount,
+    String? sessionId,
+  }) {
     return FocusModeState(
       isActive: isActive ?? this.isActive,
       remainingSeconds: remainingSeconds ?? this.remainingSeconds,
+      totalSeconds: totalSeconds ?? this.totalSeconds,
       sessionType: sessionType ?? this.sessionType,
       blockedApps: blockedApps ?? this.blockedApps,
       pomodoroCount: pomodoroCount ?? this.pomodoroCount,
+      sessionId: sessionId ?? this.sessionId,
     );
   }
+
+  int get elapsedMinutes => (totalSeconds - remainingSeconds) ~/ 60;
 }
 
 class FocusModeNotifier extends StateNotifier<FocusModeState> {
-  FocusModeNotifier() : super(FocusModeState());
+  FocusModeNotifier(this._ref) : super(FocusModeState());
+  final Ref _ref;
   Timer? _timer;
+  DateTime? _sessionStart;
   static const platform = MethodChannel('com.scrollsense/usage_stats');
 
   void startSession(int minutes, String type, List<String> apps) async {
+    final id = DateTime.now().millisecondsSinceEpoch.toString();
+    _sessionStart = DateTime.now();
+    final totalSecs = minutes * 60;
+
     state = state.copyWith(
       isActive: true,
-      remainingSeconds: minutes * 60,
+      remainingSeconds: totalSecs,
+      totalSeconds: totalSecs,
       sessionType: type,
       blockedApps: apps,
+      sessionId: id,
     );
+
+    // Persist session start
+    final store = _ref.read(focusSessionStoreProvider);
+    await store.save(FocusSession(
+      id: id,
+      startTime: _sessionStart!,
+      durationMinutes: minutes,
+      completed: false,
+      blockedApps: apps,
+      sessionType: type,
+    ));
+
     _startTimer();
-    
+
     try {
-      await platform.invokeMethod('setFocusMode', {
-        'active': true,
-        'apps': apps,
-      });
+      await platform.invokeMethod('setFocusMode', {'active': true, 'apps': apps});
     } catch (e) {
-      debugPrint("Failed to set focus mode: $e");
+      debugPrint('Failed to set focus mode: $e');
     }
   }
 
@@ -64,26 +102,41 @@ class FocusModeNotifier extends StateNotifier<FocusModeState> {
       if (state.remainingSeconds > 0) {
         state = state.copyWith(remainingSeconds: state.remainingSeconds - 1);
       } else {
-        stopSession();
+        stopSession(completed: true);
       }
     });
   }
 
-  void stopSession() async {
+  void stopSession({bool completed = false}) async {
     _timer?.cancel();
+    final elapsed = state.elapsedMinutes;
+    final id = state.sessionId;
+
     state = state.copyWith(
       isActive: false,
       remainingSeconds: 0,
-      pomodoroCount: state.pomodoroCount + (state.sessionType == 'pomodoro' ? 1 : 0),
+      pomodoroCount: state.pomodoroCount + (state.sessionType == 'pomodoro' && completed ? 1 : 0),
+      sessionId: null,
     );
-    
+
+    // Update persisted session as completed
+    if (id != null && _sessionStart != null) {
+      final store = _ref.read(focusSessionStoreProvider);
+      await store.save(FocusSession(
+        id: id,
+        startTime: _sessionStart!,
+        endTime: DateTime.now(),
+        durationMinutes: elapsed > 0 ? elapsed : 1,
+        completed: completed,
+        blockedApps: state.blockedApps,
+        sessionType: state.sessionType,
+      ));
+    }
+
     try {
-      await platform.invokeMethod('setFocusMode', {
-        'active': false,
-        'apps': [],
-      });
+      await platform.invokeMethod('setFocusMode', {'active': false, 'apps': []});
     } catch (e) {
-      debugPrint("Failed to disable focus mode: $e");
+      debugPrint('Failed to disable focus mode: $e');
     }
   }
 
@@ -104,7 +157,6 @@ class FocusScreen extends ConsumerStatefulWidget {
 class _FocusScreenState extends ConsumerState<FocusScreen> {
   int _selectedDuration = 25;
   final List<String> _selectedApps = [];
-  bool _isPomodoro = false;
 
   final _socialApps = [
     ('Instagram', '📸', 'com.instagram.android'),
@@ -119,11 +171,25 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(focusModeProvider);
 
+    // Trigger mood check-in when a session ends
+    ref.listen<FocusModeState>(focusModeProvider, (prev, next) {
+      if (prev?.isActive == true && next.isActive == false) {
+        MoodCheckinSheet.show(
+          context,
+          ref,
+          sessionApp: 'Focus Mode',
+          sessionDurationMinutes: prev?.elapsedMinutes ?? 0,
+        );
+      }
+    });
+
+    final isPomodoro = ref.watch(focusTabModeProvider);
+
     return Scaffold(
       body: SafeArea(
         child: state.isActive
             ? _buildActiveSession(state)
-            : _buildSetupScreen(),
+            : _buildSetupScreen(isPomodoro),
       ),
     );
   }
@@ -132,7 +198,7 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
     final hours = state.remainingSeconds ~/ 3600;
     final minutes = (state.remainingSeconds % 3600) ~/ 60;
     final seconds = state.remainingSeconds % 60;
-    final total = state.sessionType == 'pomodoro' ? 25 * 60 : _selectedDuration * 60;
+    final total = state.totalSeconds > 0 ? state.totalSeconds : 1;
     final progress = 1 - (state.remainingSeconds / total);
 
     return Container(
@@ -153,7 +219,7 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
             Align(
               alignment: Alignment.topRight,
               child: TextButton.icon(
-                onPressed: () => ref.read(focusModeProvider.notifier).stopSession(),
+                onPressed: () => ref.read(focusModeProvider.notifier).stopSession(completed: false),
                 icon: const Icon(Icons.stop_rounded, color: AppTheme.accent),
                 label: const Text('End Session', style: TextStyle(color: AppTheme.accent)),
               ),
@@ -232,7 +298,7 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
     );
   }
 
-  Widget _buildSetupScreen() {
+  Widget _buildSetupScreen(bool isPomodoro) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -244,12 +310,12 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
           const SizedBox(height: 24),
 
           // Mode Selection
-          _buildModeSelector(),
+          _buildModeSelector(isPomodoro),
           const SizedBox(height: 20),
 
           // Duration
-          if (!_isPomodoro) _buildDurationSelector(),
-          if (!_isPomodoro) const SizedBox(height: 20),
+          if (!isPomodoro) _buildDurationSelector(),
+          if (!isPomodoro) const SizedBox(height: 20),
 
           // App Selection
           _buildAppSelector(),
@@ -264,10 +330,10 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
             width: double.infinity,
             height: 56,
             child: ElevatedButton.icon(
-              onPressed: _startSession,
+              onPressed: () => _startSession(isPomodoro),
               icon: const Icon(Icons.play_arrow_rounded, color: Colors.white),
               label: Text(
-                _isPomodoro ? 'Start Pomodoro (25 min)' : 'Start Focus Session',
+                isPomodoro ? 'Start Pomodoro (25 min)' : 'Start Focus Session',
                 style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
               ),
               style: ElevatedButton.styleFrom(
@@ -281,7 +347,7 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
     );
   }
 
-  Widget _buildModeSelector() {
+  Widget _buildModeSelector(bool isPomodoro) {
     return Row(
       children: [
         Expanded(
@@ -289,8 +355,8 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
             icon: '🎯',
             title: 'Custom Focus',
             subtitle: 'Set your own duration',
-            selected: !_isPomodoro,
-            onTap: () => setState(() => _isPomodoro = false),
+            selected: !isPomodoro,
+            onTap: () => ref.read(focusTabModeProvider.notifier).state = false,
           ),
         ),
         const SizedBox(width: 12),
@@ -299,8 +365,8 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
             icon: '🍅',
             title: 'Pomodoro',
             subtitle: '25min work + 5min break',
-            selected: _isPomodoro,
-            onTap: () => setState(() => _isPomodoro = true),
+            selected: isPomodoro,
+            onTap: () => ref.read(focusTabModeProvider.notifier).state = true,
           ),
         ),
       ],
@@ -396,37 +462,208 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
           children: [
             Text('Scheduled Blocks', style: Theme.of(context).textTheme.titleMedium),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: () => _showAddBlockDialog(),
               icon: const Icon(Icons.add, size: 16),
               label: const Text('Add'),
             ),
           ],
         ),
         const SizedBox(height: 12),
-        _ScheduledBlockCard(
-          name: 'Study Time',
-          time: '9:00 AM - 12:00 PM',
-          days: 'Mon - Fri',
-          appsCount: 4,
-        ),
-        const SizedBox(height: 8),
-        _ScheduledBlockCard(
-          name: 'Night Mode',
-          time: '11:00 PM - 7:00 AM',
-          days: 'Every Day',
-          appsCount: 6,
+        Consumer(
+          builder: (ctx, ref, _) {
+            final config = ref.watch(interventionConfigProvider);
+            if (config.scheduledBlocks.isEmpty) {
+              return Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardTheme.color,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: AppTheme.primary.withOpacity(0.15),
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.schedule_rounded, color: Colors.grey.withOpacity(0.5), size: 20),
+                    const SizedBox(width: 12),
+                    const Text(
+                      'No scheduled blocks yet.\nTap Add to create one.',
+                      style: TextStyle(color: Colors.grey, fontSize: 13, height: 1.4),
+                    ),
+                  ],
+                ),
+              );
+            }
+            return Column(
+              children: config.scheduledBlocks.map((block) {
+                final start = block.startTime;
+                final end = block.endTime;
+                final startStr = '${start.hourOfPeriod}:${start.minute.toString().padLeft(2,'0')} ${start.period.name.toUpperCase()}';
+                final endStr = '${end.hourOfPeriod}:${end.minute.toString().padLeft(2,'0')} ${end.period.name.toUpperCase()}';
+                final dayNames = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+                final dayStr = block.weekdays.length == 7
+                    ? 'Every Day'
+                    : block.weekdays.map((d) => dayNames[d - 1]).join(', ');
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: _ScheduledBlockCard(
+                    name: block.name,
+                    time: '$startStr – $endStr',
+                    days: dayStr,
+                    appsCount: block.appsToBlock.length,
+                  ),
+                );
+              }).toList(),
+            );
+          },
         ),
       ],
     );
   }
 
-  void _startSession() {
+  void _showAddBlockDialog() {
+    final nameCtrl = TextEditingController();
+    TimeOfDay startTime = const TimeOfDay(hour: 9, minute: 0);
+    TimeOfDay endTime = const TimeOfDay(hour: 12, minute: 0);
+    final selectedDays = <int>{1, 2, 3, 4, 5}; // Mon-Fri default
+
+    showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setDialogState) => AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text('Add Scheduled Block',
+              style: TextStyle(fontWeight: FontWeight.w800)),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: nameCtrl,
+                  decoration: InputDecoration(
+                    labelText: 'Block name',
+                    hintText: 'e.g. Study Time',
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Time pickers
+                Row(
+                  children: [
+                    Expanded(
+                      child: _TimeTile(
+                        label: 'Start',
+                        time: startTime,
+                        onTap: () async {
+                          final t = await showTimePicker(context: ctx, initialTime: startTime);
+                          if (t != null) setDialogState(() => startTime = t);
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: _TimeTile(
+                        label: 'End',
+                        time: endTime,
+                        onTap: () async {
+                          final t = await showTimePicker(context: ctx, initialTime: endTime);
+                          if (t != null) setDialogState(() => endTime = t);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                const Text('Days', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 6,
+                  children: [
+                    for (int d = 1; d <= 7; d++)
+                      GestureDetector(
+                        onTap: () => setDialogState(() {
+                          if (selectedDays.contains(d)) {
+                            selectedDays.remove(d);
+                          } else {
+                            selectedDays.add(d);
+                          }
+                        }),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 150),
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color: selectedDays.contains(d)
+                                ? AppTheme.primary
+                                : AppTheme.primary.withOpacity(0.08),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              ['M','T','W','T','F','S','S'][d - 1],
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: selectedDays.contains(d)
+                                    ? Colors.white
+                                    : AppTheme.primary,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (nameCtrl.text.trim().isEmpty || selectedDays.isEmpty) return;
+                final newBlock = ScheduledBlock(
+                  name: nameCtrl.text.trim(),
+                  startTime: startTime,
+                  endTime: endTime,
+                  weekdays: selectedDays.toList()..sort(),
+                  appsToBlock: _selectedApps.isNotEmpty
+                      ? List.from(_selectedApps)
+                      : _socialApps.map((a) => a.$3).toList(),
+                );
+                final config = ref.read(interventionConfigProvider);
+                ref.read(interventionConfigProvider.notifier).update(
+                  config.copyWith(
+                    scheduledBlocks: [...config.scheduledBlocks, newBlock],
+                  ),
+                );
+                Navigator.pop(ctx);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primary,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              child: const Text('Save'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _startSession(bool isPomodoro) {
     final apps = _selectedApps.isEmpty
         ? _socialApps.map((a) => a.$3).toList()
         : _selectedApps;
     ref.read(focusModeProvider.notifier).startSession(
-      _isPomodoro ? 25 : _selectedDuration,
-      _isPomodoro ? 'pomodoro' : 'custom',
+      isPomodoro ? 25 : _selectedDuration,
+      isPomodoro ? 'pomodoro' : 'custom',
       apps,
     );
   }
@@ -507,6 +744,46 @@ class _ScheduledBlockCard extends StatelessWidget {
             activeColor: AppTheme.primary,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _TimeTile extends StatelessWidget {
+  final String label;
+  final TimeOfDay time;
+  final VoidCallback onTap;
+  const _TimeTile({required this.label, required this.time, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final hour = time.hourOfPeriod == 0 ? 12 : time.hourOfPeriod;
+    final min = time.minute.toString().padLeft(2, '0');
+    final period = time.period == DayPeriod.am ? 'AM' : 'PM';
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: AppTheme.primary.withOpacity(0.08),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppTheme.primary.withOpacity(0.2)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(label, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+            const SizedBox(height: 2),
+            Text(
+              '$hour:$min $period',
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 15,
+                color: AppTheme.primary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

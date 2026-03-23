@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/hive_adapters.dart';
+
 
 class UsageStatsService {
   static const MethodChannel _channel = MethodChannel('com.scrollsense/usage_stats');
@@ -70,3 +72,16 @@ class UsageStatsService {
     }
   }
 }
+// ─── Providers ──────────────────────────────────────────────────────────────
+final usageStatsServiceProvider = Provider<UsageStatsService>((ref) => UsageStatsService());
+
+/// Today's device usage in seconds (aggregated)
+final dailyDeviceUsageProvider = FutureProvider<int>((ref) async {
+  final records = await UsageStatsService.getUsageStats();
+  int total = 0;
+  for (var record in records) {
+    total += record.durationSeconds;
+  }
+  return total;
+});
+

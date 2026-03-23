@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../utils/app_theme.dart';
 import '../widgets/score_ring.dart';
+import '../services/streak_service.dart';
+import '../services/intervention_config_service.dart';
+import '../services/focus_session_store.dart';
+import '../services/focus_session_store.dart';
 
-class ReportsScreen extends StatefulWidget {
+class ReportsScreen extends ConsumerStatefulWidget {
   const ReportsScreen({super.key});
 
   @override
-  State<ReportsScreen> createState() => _ReportsScreenState();
+  ConsumerState<ReportsScreen> createState() => _ReportsScreenState();
 }
 
-class _ReportsScreenState extends State<ReportsScreen> with SingleTickerProviderStateMixin {
+class _ReportsScreenState extends ConsumerState<ReportsScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
-  final _achievements = [
-    _Achievement(emoji: '🔥', title: 'First Focus', desc: 'Complete your first focus session', unlocked: true),
-    _Achievement(emoji: '⚡', title: 'Speed Reducer', desc: 'Cut screen time by 20%', unlocked: true),
-    _Achievement(emoji: '🏆', title: 'Week Warrior', desc: '7-day focus streak', unlocked: true),
-    _Achievement(emoji: '🧠', title: 'Deep Focus', desc: 'Focus for 2+ hours straight', unlocked: false),
-    _Achievement(emoji: '🌙', title: 'Night Owl No More', desc: 'No late night usage for 5 days', unlocked: false),
-    _Achievement(emoji: '📵', title: 'Social Detox', desc: 'No social media for 24h', unlocked: false),
-    _Achievement(emoji: '🎯', title: 'Productivity Pro', desc: 'Score 90+ on productivity', unlocked: false),
-    _Achievement(emoji: '💎', title: 'Digital Minimalist', desc: 'Under 2h screen time for a week', unlocked: false),
-  ];
 
   @override
   void initState() {
@@ -94,6 +88,30 @@ class _ReportsScreenState extends State<ReportsScreen> with SingleTickerProvider
   }
 
   Widget _buildWeeklySummaryCard() {
+    final store = FocusSessionStore();
+    final sessionCount = store.getLast7Days().where((s) => s.completed).length;
+    final focusMins = store.weeklyFocusMinutes();
+    final streak = store.focusStreak();
+    final events = ref.read(interventionLogProvider);
+    final weekStart = DateTime.now().subtract(const Duration(days: 7));
+    final weeklyInterventions = events.where((e) => e.timestamp.isAfter(weekStart)).length;
+
+    final now = DateTime.now();
+    final weekLabel = '${_monthName(now.month)} ${now.day - 6}–${now.day}';
+
+    String headline;
+    String subline;
+    if (focusMins >= 120) {
+      headline = '📈 Great Progress!';
+      subline = 'You completed $sessionCount focus sessions this week with ${focusMins ~/ 60}h ${focusMins % 60}m of deep work.';
+    } else if (sessionCount > 0) {
+      headline = '🌱 Getting Started';
+      subline = '$sessionCount focus session${sessionCount == 1 ? '' : 's'} completed. Build the habit — aim for one session per day.';
+    } else {
+      headline = '💤 Quiet Week';
+      subline = 'No focus sessions logged. Try starting with just 25 minutes using Pomodoro mode.';
+    }
+
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -124,27 +142,33 @@ class _ReportsScreenState extends State<ReportsScreen> with SingleTickerProvider
                   color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Text('Feb 17-23', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600)),
+                child: Text(weekLabel, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600)),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          const Text(
-            '📈 Great Progress!',
-            style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w900),
-          ),
+          Text(headline, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w900)),
           const SizedBox(height: 8),
-          const Text(
-            'You reduced screen time by 18% compared to last week. Focus score improved by 12 points.',
-            style: TextStyle(color: Colors.white70, height: 1.5, fontSize: 14),
-          ),
+          Text(subline, style: const TextStyle(color: Colors.white70, height: 1.5, fontSize: 14)),
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _WhiteStat(label: 'Screen Time', value: '48h 20m', delta: '-18%'),
-              _WhiteStat(label: 'Focus Score', value: '72', delta: '+12'),
-              _WhiteStat(label: 'Doom Scrolls', value: '23', delta: '-8'),
+              _WhiteStat(
+                label: 'Focus Time',
+                value: '${focusMins ~/ 60}h ${focusMins % 60}m',
+                delta: '$sessionCount sessions',
+              ),
+              _WhiteStat(
+                label: 'Focus Streak',
+                value: '${streak}d',
+                delta: streak > 0 ? '🔥 active' : 'start today',
+              ),
+              _WhiteStat(
+                label: 'Interventions',
+                value: '$weeklyInterventions',
+                delta: weeklyInterventions == 0 ? '✓ clean' : 'this week',
+              ),
             ],
           ),
         ],
@@ -153,6 +177,15 @@ class _ReportsScreenState extends State<ReportsScreen> with SingleTickerProvider
   }
 
   Widget _buildKeyMetricsGrid() {
+    final store = FocusSessionStore();
+    final streak = store.focusStreak();
+    final focusMins = store.weeklyFocusMinutes();
+    final avgDaily = focusMins ~/ 7;
+    final events = ref.read(interventionLogProvider);
+    final weekStart = DateTime.now().subtract(const Duration(days: 7));
+    final weeklyInterventions = events.where((e) => e.timestamp.isAfter(weekStart)).length;
+    final hardLocks = events.where((e) => e.level >= 5 && e.timestamp.isAfter(weekStart)).length;
+
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -161,15 +194,21 @@ class _ReportsScreenState extends State<ReportsScreen> with SingleTickerProvider
       crossAxisSpacing: 12,
       childAspectRatio: 1.4,
       children: [
-        _MetricCard(emoji: '🎯', label: 'Focus Streak', value: '5 days', color: AppTheme.primary),
-        _MetricCard(emoji: '📉', label: 'Screen Reduction', value: '-18%', color: AppTheme.success),
-        _MetricCard(emoji: '⏱️', label: 'Avg Daily Time', value: '6h 54m', color: AppTheme.warning),
-        _MetricCard(emoji: '🔒', label: 'Interventions', value: '23 blocked', color: AppTheme.accent),
+        _MetricCard(emoji: '🎯', label: 'Focus Streak', value: '$streak day${streak == 1 ? '' : 's'}', color: AppTheme.primary),
+        _MetricCard(emoji: '⏱️', label: 'Avg Daily Focus', value: '${avgDaily}m', color: AppTheme.success),
+        _MetricCard(emoji: '⚠️', label: 'Total Interventions', value: '$weeklyInterventions', color: AppTheme.warning),
+        _MetricCard(emoji: '🔒', label: 'Hard Locks', value: '$hardLocks', color: AppTheme.accent),
       ],
     );
   }
 
   Widget _buildFocusImprovement() {
+    final store = FocusSessionStore();
+    final daily = store.dailyFocusMinutesLast7();
+    final maxMins = daily.reduce((a, b) => a > b ? a : b);
+    const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+    final today = DateTime.now().weekday - 1; // 0=Mon
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -179,26 +218,39 @@ class _ReportsScreenState extends State<ReportsScreen> with SingleTickerProvider
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Focus Improvement Trend', style: Theme.of(context).textTheme.titleMedium),
+          Text('Focus Minutes by Day', style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(height: 4),
+          Text('This week's completed focus sessions', style: Theme.of(context).textTheme.bodyMedium),
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: List.generate(7, (i) {
-              final heights = [0.55, 0.62, 0.48, 0.70, 0.65, 0.78, 0.72];
-              final days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+              final mins = daily[i];
+              final ratio = maxMins > 0 ? (mins / maxMins).clamp(0.05, 1.0) : 0.05;
+              final isToday = i == today;
+              final label = mins >= 60
+                  ? '${mins ~/ 60}h'
+                  : mins > 0 ? '${mins.round()}m' : '—';
               return Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('${(heights[i] * 100).round()}', style: TextStyle(
-                    fontSize: 10,
-                    color: i == 6 ? AppTheme.primary : Colors.grey,
-                    fontWeight: i == 6 ? FontWeight.w700 : FontWeight.w400,
+                  Text(label, style: TextStyle(
+                    fontSize: 9,
+                    color: isToday ? AppTheme.primary : Colors.grey,
+                    fontWeight: isToday ? FontWeight.w700 : FontWeight.w400,
                   )),
                   const SizedBox(height: 4),
-                  Container(
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 400),
                     width: 28,
-                    height: 80 * heights[i],
+                    height: (80 * ratio).clamp(4.0, 80.0),
                     decoration: BoxDecoration(
-                      color: i == 6 ? AppTheme.primary : AppTheme.primary.withOpacity(0.3),
+                      color: isToday
+                          ? AppTheme.primary
+                          : mins > 0
+                              ? AppTheme.primary.withOpacity(0.4)
+                              : Colors.grey.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(6),
                     ),
                   ),
@@ -214,56 +266,139 @@ class _ReportsScreenState extends State<ReportsScreen> with SingleTickerProvider
   }
 
   Widget _buildDistractionTriggers() {
-    final triggers = [
-      ('TikTok', '🎵', 0.85),
-      ('Instagram', '📸', 0.72),
-      ('YouTube', '▶️', 0.60),
-      ('Twitter', '🐦', 0.45),
-    ];
+    // Build from real intervention event log
+    final events = ref.read(interventionLogProvider);
+    final weekStart = DateTime.now().subtract(const Duration(days: 7));
+    final weekEvents = events.where((e) => e.timestamp.isAfter(weekStart)).toList();
+
+    // Count by app
+    final counts = <String, int>{};
+    for (final e in weekEvents) {
+      counts[e.packageName] = (counts[e.packageName] ?? 0) + 1;
+    }
+
+    const appMeta = {
+      'com.instagram.android': ('Instagram', '📸'),
+      'com.tiktok.android': ('TikTok', '🎵'),
+      'com.twitter.android': ('Twitter', '🐦'),
+      'com.snapchat.android': ('Snapchat', '👻'),
+      'com.reddit.frontpage': ('Reddit', '🔴'),
+      'com.facebook.katana': ('Facebook', '👥'),
+      'com.google.android.youtube': ('YouTube', '▶️'),
+    };
+
+    final triggers = counts.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    final maxCount = triggers.isNotEmpty ? triggers.first.value : 1;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Top Distraction Triggers', style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 4),
+        Text('Apps that triggered interventions this week',
+            style: Theme.of(context).textTheme.bodyMedium),
         const SizedBox(height: 12),
-        ...triggers.map((t) => Container(
-          margin: const EdgeInsets.only(bottom: 8),
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardTheme.color,
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: Row(
-            children: [
-              Text(t.$2, style: const TextStyle(fontSize: 22)),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(t.$1, style: const TextStyle(fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 4),
-                    LinearProgressIndicator(
-                      value: t.$3,
-                      backgroundColor: AppTheme.accent.withOpacity(0.1),
-                      valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.accent),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                  ],
-                ),
+        if (triggers.isEmpty)
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardTheme.color,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: const Row(
+              children: [
+                Text('✅', style: TextStyle(fontSize: 22)),
+                SizedBox(width: 12),
+                Text('No interventions triggered this week!',
+                    style: TextStyle(fontWeight: FontWeight.w600)),
+              ],
+            ),
+          )
+        else
+          ...triggers.take(5).map((entry) {
+            final meta = appMeta[entry.key];
+            final name = meta?.$1 ?? entry.key.split('.').last;
+            final emoji = meta?.$2 ?? '📱';
+            final ratio = entry.value / maxCount;
+            return Container(
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardTheme.color,
+                borderRadius: BorderRadius.circular(14),
               ),
-              const SizedBox(width: 12),
-              Text('${(t.$3 * 100).round()}%', style: const TextStyle(
-                color: AppTheme.accent, fontWeight: FontWeight.w700,
-              )),
-            ],
-          ),
-        )),
+              child: Row(
+                children: [
+                  Text(emoji, style: const TextStyle(fontSize: 22)),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(name, style: const TextStyle(fontWeight: FontWeight.w600)),
+                        const SizedBox(height: 4),
+                        LinearProgressIndicator(
+                          value: ratio,
+                          backgroundColor: AppTheme.accent.withOpacity(0.1),
+                          valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.accent),
+                          borderRadius: BorderRadius.circular(3),
+                          minHeight: 5,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text('${entry.value}',
+                          style: const TextStyle(
+                              color: AppTheme.accent, fontWeight: FontWeight.w800, fontSize: 16)),
+                      const Text('triggers', style: TextStyle(color: Colors.grey, fontSize: 9)),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          }),
       ],
     );
   }
 
   Widget _buildProductiveHours() {
+    // Derive best focus window from focus sessions (which hours had most sessions)
+    final store = FocusSessionStore();
+    final sessions = store.getCompleted();
+    final hourCounts = List<int>.filled(24, 0);
+    for (final s in sessions) {
+      hourCounts[s.startTime.hour]++;
+    }
+    final maxCount = hourCounts.reduce((a, b) => a > b ? a : b);
+    String bestWindow = 'No sessions yet';
+    String bestEmoji = '💤';
+    if (maxCount > 0) {
+      final bestHour = hourCounts.indexOf(maxCount);
+      final endHour = (bestHour + 3) % 24;
+      bestWindow = '${_fmtHour(bestHour)} – ${_fmtHour(endHour)}';
+      bestEmoji = bestHour < 12 ? '🌅' : bestHour < 17 ? '☀️' : '🌆';
+    }
+
+    // Worst hour = most interventions
+    final events = ref.read(interventionLogProvider);
+    final worstHourCounts = List<int>.filled(24, 0);
+    for (final e in events) {
+      worstHourCounts[e.timestamp.hour]++;
+    }
+    final worstMax = worstHourCounts.reduce((a, b) => a > b ? a : b);
+    String worstWindow = 'None detected';
+    String worstEmoji = '✅';
+    if (worstMax > 0) {
+      final worstHour = worstHourCounts.indexOf(worstMax);
+      worstWindow = 'Around ${_fmtHour(worstHour)}';
+      worstEmoji = worstHour >= 22 || worstHour <= 4 ? '🌙' : '⚠️';
+    }
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -273,21 +408,23 @@ class _ReportsScreenState extends State<ReportsScreen> with SingleTickerProvider
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Your Productive Hours', style: Theme.of(context).textTheme.titleMedium),
+          Text('Your Focus Patterns', style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 4),
-          Text('Based on this week\'s usage patterns', style: Theme.of(context).textTheme.bodyMedium),
+          Text('Based on all your logged sessions', style: Theme.of(context).textTheme.bodyMedium),
           const SizedBox(height: 16),
           Row(
             children: [
-              const Text('🌅', style: TextStyle(fontSize: 28)),
+              Text(bestEmoji, style: const TextStyle(fontSize: 28)),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('Best Focus Window', style: TextStyle(fontWeight: FontWeight.w700)),
-                    const Text('9:00 AM – 12:00 PM', style: TextStyle(color: AppTheme.success, fontSize: 18, fontWeight: FontWeight.w800)),
-                    Text('72% productive on average', style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                    Text(bestWindow, style: const TextStyle(
+                        color: AppTheme.success, fontSize: 18, fontWeight: FontWeight.w800)),
+                    Text('${sessions.length} total sessions logged',
+                        style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
                   ],
                 ),
               ),
@@ -296,15 +433,17 @@ class _ReportsScreenState extends State<ReportsScreen> with SingleTickerProvider
           const Divider(height: 24),
           Row(
             children: [
-              const Text('⚠️', style: TextStyle(fontSize: 28)),
+              Text(worstEmoji, style: const TextStyle(fontSize: 28)),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('High Risk Zone', style: TextStyle(fontWeight: FontWeight.w700)),
-                    const Text('8:00 PM – 11:00 PM', style: TextStyle(color: AppTheme.accent, fontSize: 18, fontWeight: FontWeight.w800)),
-                    Text('88% doom scroll likelihood', style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                    Text(worstWindow, style: const TextStyle(
+                        color: AppTheme.accent, fontSize: 18, fontWeight: FontWeight.w800)),
+                    Text('${worstMax > 0 ? worstMax : 0} interventions at peak hour',
+                        style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
                   ],
                 ),
               ),
@@ -336,33 +475,96 @@ class _ReportsScreenState extends State<ReportsScreen> with SingleTickerProvider
   }
 
   Widget _buildStreakHero() {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
+    final streakAsync = ref.watch(streakProvider);
+    return streakAsync.when(
+      loading: () => Container(
+        height: 110,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)]),
+          borderRadius: BorderRadius.circular(24),
         ),
-        borderRadius: BorderRadius.circular(24),
+        child: const Center(child: CircularProgressIndicator(color: Colors.white)),
       ),
-      child: Row(
-        children: [
-          const Text('🔥', style: TextStyle(fontSize: 56)),
-          const SizedBox(width: 20),
-          Column(
+      error: (_, __) => const SizedBox.shrink(),
+      data: (streak) {
+        final events = ref.read(interventionLogProvider);
+        final hardCount = events.where((e) => e.level >= 4).length;
+        return Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFFFF6B6B), Color(0xFFFF8E53)],
+            ),
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Current Streak', style: TextStyle(color: Colors.white70, fontSize: 14)),
-              const Text('5 Days', style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.w900)),
-              const Text('Best: 12 days', style: TextStyle(color: Colors.white60, fontSize: 12)),
+              Row(
+                children: [
+                  Text(
+                    streak.budgetStreak > 0 ? '🔥' : '💤',
+                    style: const TextStyle(fontSize: 52),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Budget Streak', style: TextStyle(color: Colors.white70, fontSize: 13)),
+                        Text(
+                          '${streak.budgetStreak} Days',
+                          style: const TextStyle(color: Colors.white, fontSize: 34, fontWeight: FontWeight.w900),
+                        ),
+                        Text(
+                          'Best: ${streak.longestBudgetStreak} days',
+                          style: const TextStyle(color: Colors.white60, fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Container(height: 1, color: Colors.white.withOpacity(0.15)),
+              const SizedBox(height: 14),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _WhiteStatLive(
+                    label: 'No-lock streak',
+                    value: '${streak.cleanStreak}d',
+                  ),
+                  _WhiteStatLive(
+                    label: 'Clean days ever',
+                    value: '${streak.totalCleanDays}',
+                  ),
+                  _WhiteStatLive(
+                    label: 'Hard interventions',
+                    value: '$hardCount',
+                    danger: hardCount > 5,
+                  ),
+                ],
+              ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
   Widget _buildStreakCalendar() {
     final today = DateTime.now();
+    final events = ref.read(interventionLogProvider);
+    final monthName = _monthName(today.month);
+    final daysInMonth = DateTime(today.year, today.month + 1, 0).day;
+
+    // Build set of days that had hard interventions
+    final hardDays = events
+        .where((e) => e.level >= 4 && e.timestamp.month == today.month)
+        .map((e) => e.timestamp.day)
+        .toSet();
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -372,46 +574,65 @@ class _ReportsScreenState extends State<ReportsScreen> with SingleTickerProvider
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('February 2025', style: Theme.of(context).textTheme.titleMedium),
-          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('$monthName ${today.year}', style: Theme.of(context).textTheme.titleMedium),
+              Row(
+                children: [
+                  _CalLegend(color: AppTheme.success, label: 'Clean day'),
+                  const SizedBox(width: 12),
+                  _CalLegend(color: AppTheme.accent, label: 'Hard lock'),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          // Day-of-week headers
+          Row(
+            children: ['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d) => Expanded(
+              child: Center(child: Text(d, style: const TextStyle(fontSize: 10, color: Colors.grey))),
+            )).toList(),
+          ),
+          const SizedBox(height: 8),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 7,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
+              mainAxisSpacing: 6,
+              crossAxisSpacing: 6,
             ),
-            itemCount: 28,
+            itemCount: daysInMonth,
             itemBuilder: (ctx, i) {
               final day = i + 1;
-              final isStreak = day >= 18 && day <= today.day;
               final isToday = day == today.day;
+              final isFuture = day > today.day;
+              final hasHardLock = hardDays.contains(day);
+              final isClean = !isFuture && !hasHardLock && day <= today.day;
+
+              Color? bg;
+              Color textColor = Theme.of(context).colorScheme.onSurface.withOpacity(0.4);
+              if (isToday) {
+                bg = AppTheme.primary;
+                textColor = Colors.white;
+              } else if (hasHardLock) {
+                bg = AppTheme.accent.withOpacity(0.2);
+                textColor = AppTheme.accent;
+              } else if (isClean) {
+                bg = AppTheme.success.withOpacity(0.15);
+                textColor = AppTheme.success;
+              }
+
               return Container(
                 decoration: BoxDecoration(
-                  color: isToday
-                      ? AppTheme.primary
-                      : isStreak
-                          ? AppTheme.success.withOpacity(0.2)
-                          : Colors.transparent,
+                  color: bg,
                   shape: BoxShape.circle,
-                  border: isToday ? null : Border.all(
-                    color: isStreak ? AppTheme.success.withOpacity(0.5) : Colors.transparent,
-                  ),
                 ),
                 child: Center(
-                  child: Text(
-                    '$day',
-                    style: TextStyle(
-                      color: isToday
-                          ? Colors.white
-                          : isStreak
-                              ? AppTheme.success
-                              : Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-                      fontSize: 12,
-                      fontWeight: isToday ? FontWeight.w700 : FontWeight.w400,
-                    ),
-                  ),
+                  child: Text('$day',
+                    style: TextStyle(fontSize: 11, color: textColor,
+                      fontWeight: isToday ? FontWeight.w800 : FontWeight.w400)),
                 ),
               );
             },
@@ -421,32 +642,170 @@ class _ReportsScreenState extends State<ReportsScreen> with SingleTickerProvider
     );
   }
 
+  static String _monthName(int m) {
+    const names = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return m >= 1 && m <= 12 ? names[m] : '';
+  }
+
+  static String _fmtHour(int h) {
+    if (h == 0) return '12 AM';
+    if (h < 12) return '$h AM';
+    if (h == 12) return '12 PM';
+    return '${h - 12} PM';
+  }
+
   Widget _buildStreakGoals() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Active Goals', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 12),
-        _GoalCard(emoji: '⏱️', title: 'Reduce to 6h/day', progress: 0.7, current: '6h 54m', target: '6h'),
-        const SizedBox(height: 8),
-        _GoalCard(emoji: '🌙', title: 'No phone after 11pm', progress: 0.6, current: '3/5 days', target: '5 days'),
-        const SizedBox(height: 8),
-        _GoalCard(emoji: '🎯', title: 'Focus score 80+', progress: 0.72, current: '72', target: '80'),
-      ],
+    final streakAsync = ref.watch(streakProvider);
+    final store = FocusSessionStore();
+    final focusMins = store.weeklyFocusMinutes();
+    final events = ref.read(interventionLogProvider);
+    final weekStart = DateTime.now().subtract(const Duration(days: 7));
+    final weekLocks = events.where((e) => e.level >= 4 && e.timestamp.isAfter(weekStart)).length;
+
+    return streakAsync.when(
+      loading: () => const SizedBox(height: 80, child: Center(child: CircularProgressIndicator())),
+      error: (_, __) => const SizedBox.shrink(),
+      data: (streak) {
+        // Focus goal: 120 min/week (2h) is baseline; scale to how close they are
+        final focusGoalMins = 120;
+        final focusProgress = (focusMins / focusGoalMins).clamp(0.0, 1.0);
+
+        // Clean-day goal: 5 clean days in a row
+        final cleanProgress = (streak.cleanStreak / 5).clamp(0.0, 1.0);
+
+        // Lock-free week goal
+        final lockProgress = weekLocks == 0 ? 1.0 : (1.0 - (weekLocks / 5)).clamp(0.0, 1.0);
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('This Week\'s Goals', style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 12),
+            _GoalCard(
+              emoji: '🎯',
+              title: 'Focus 2h this week',
+              progress: focusProgress,
+              current: '${focusMins ~/ 60}h ${focusMins % 60}m',
+              target: '2h',
+            ),
+            const SizedBox(height: 8),
+            _GoalCard(
+              emoji: '🛡️',
+              title: '5-day no hard lock streak',
+              progress: cleanProgress,
+              current: '${streak.cleanStreak} day${streak.cleanStreak == 1 ? '' : 's'}',
+              target: '5 days',
+            ),
+            const SizedBox(height: 8),
+            _GoalCard(
+              emoji: '🔓',
+              title: 'Lock-free week',
+              progress: lockProgress,
+              current: weekLocks == 0 ? 'Clean ✓' : '$weekLocks locks triggered',
+              target: '0 locks',
+            ),
+          ],
+        );
+      },
     );
   }
 
   Widget _buildAchievementsTab() {
-    return GridView.builder(
-      padding: const EdgeInsets.all(16),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        childAspectRatio: 1.1,
-      ),
-      itemCount: _achievements.length,
-      itemBuilder: (ctx, i) => _AchievementCard(achievement: _achievements[i]),
+    final streakAsync = ref.watch(streakProvider);
+    final events = ref.watch(interventionLogProvider);
+
+    return streakAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (_, __) => const SizedBox.shrink(),
+      data: (streak) {
+        final hardCount = events.where((e) => e.level >= 4).length;
+
+        final achievements = [
+          _Achievement(
+            emoji: '🔥',
+            title: 'First Streak',
+            desc: 'Get a 1-day budget streak',
+            unlocked: streak.budgetStreak >= 1,
+          ),
+          _Achievement(
+            emoji: '⚡',
+            title: 'Week Warrior',
+            desc: '7-day budget streak',
+            unlocked: streak.longestBudgetStreak >= 7,
+          ),
+          _Achievement(
+            emoji: '🏆',
+            title: 'Month Master',
+            desc: '30-day budget streak',
+            unlocked: streak.longestBudgetStreak >= 30,
+          ),
+          _Achievement(
+            emoji: '🛡️',
+            title: 'Shield Up',
+            desc: 'First clean day (no hard lock)',
+            unlocked: streak.totalCleanDays >= 1,
+          ),
+          _Achievement(
+            emoji: '🌙',
+            title: 'Night Owl No More',
+            desc: '5 clean days in a row',
+            unlocked: streak.cleanStreak >= 5,
+          ),
+          _Achievement(
+            emoji: '📵',
+            title: 'Social Detox',
+            desc: '10 clean days ever',
+            unlocked: streak.totalCleanDays >= 10,
+          ),
+          _Achievement(
+            emoji: '🎯',
+            title: 'Productivity Pro',
+            desc: 'Under 5 total hard interventions',
+            unlocked: hardCount < 5 && events.isNotEmpty,
+          ),
+          _Achievement(
+            emoji: '💎',
+            title: 'Digital Minimalist',
+            desc: '30 total clean days',
+            unlocked: streak.totalCleanDays >= 30,
+          ),
+        ];
+
+        final unlocked = achievements.where((a) => a.unlocked).length;
+
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              child: Row(
+                children: [
+                  Text('$unlocked / ${achievements.length} unlocked',
+                    style: const TextStyle(color: Colors.grey, fontSize: 13)),
+                  const Spacer(),
+                  Text(
+                    '${(unlocked / achievements.length * 100).round()}% complete',
+                    style: TextStyle(color: AppTheme.primary, fontWeight: FontWeight.w700, fontSize: 13),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: GridView.builder(
+                padding: const EdgeInsets.all(16),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 1.3,
+                ),
+                itemCount: achievements.length,
+                itemBuilder: (ctx, i) => _AchievementCard(achievement: achievements[i]),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -610,6 +969,45 @@ class _AchievementCard extends StatelessWidget {
           ],
         ],
       ),
+    );
+  }
+}
+
+class _WhiteStatLive extends StatelessWidget {
+  final String label;
+  final String value;
+  final bool danger;
+  const _WhiteStatLive({required this.label, required this.value, this.danger = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(value, style: TextStyle(
+          color: danger ? const Color(0xFFFFD700) : Colors.white,
+          fontSize: 22,
+          fontWeight: FontWeight.w900,
+        )),
+        Text(label, style: const TextStyle(color: Colors.white60, fontSize: 10)),
+      ],
+    );
+  }
+}
+
+class _CalLegend extends StatelessWidget {
+  final Color color;
+  final String label;
+  const _CalLegend({required this.color, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+        const SizedBox(width: 4),
+        Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+      ],
     );
   }
 }

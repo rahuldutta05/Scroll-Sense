@@ -11,6 +11,10 @@ import 'screens/focus_screen.dart';
 import 'screens/reports_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/onboarding_screen.dart';
+import 'screens/blocked_apps_screen.dart';
+import 'services/intervention_service.dart';
+import 'services/intervention_config_service.dart';
+import 'screens/insights_screen.dart';
 import 'screens/lock_overlay_screen.dart';
 import 'services/background_service.dart';
 import 'utils/app_theme.dart';
@@ -62,8 +66,19 @@ class ScrollSenseApp extends ConsumerWidget {
       routes: {
         '/splash': (ctx) => const SplashScreen(),
         '/onboarding': (ctx) => const OnboardingScreen(),
-        '/home': (ctx) => const MainShell(),
-        '/lock': (ctx) => const LockOverlayScreen(),
+        '/home': (ctx) => const InterventionListener(child: MainShell()),
+        '/blocked_apps': (ctx) => const BlockedAppsScreen(),
+        '/lock': (ctx) {
+          final args = ModalRoute.of(ctx)?.settings.arguments;
+          if (args is Map) {
+            return LockOverlayScreen(
+              appName: args['appName'] as String? ?? 'an app',
+              triggerReason: args['triggerReason'] as String? ?? 'Doom scroll detected',
+              initialSeconds: args['initialSeconds'] as int? ?? 300,
+            );
+          }
+          return const LockOverlayScreen();
+        },
       },
     );
   }
@@ -74,36 +89,40 @@ final themeModeProvider = StateProvider<bool>((ref) {
   return box.get('dark_mode', defaultValue: false);
 });
 
-class MainShell extends StatefulWidget {
+final navigationProvider = StateProvider<int>((ref) => 0);
+final focusTabModeProvider = StateProvider<bool>((ref) => false);
+
+class MainShell extends ConsumerStatefulWidget {
   const MainShell({super.key});
 
   @override
-  State<MainShell> createState() => _MainShellState();
+  ConsumerState<MainShell> createState() => _MainShellState();
 }
 
-class _MainShellState extends State<MainShell> {
-  int _currentIndex = 0;
-
+class _MainShellState extends ConsumerState<MainShell> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const DashboardScreen(),
     const FocusScreen(),
+    const InsightsScreen(),
     const ReportsScreen(),
     const SettingsScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final currentIndex = ref.watch(navigationProvider);
+
     return Scaffold(
       body: IndexedStack(
-        index: _currentIndex,
+        index: currentIndex,
         children: _screens,
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      bottomNavigationBar: _buildBottomNav(currentIndex),
     );
   }
 
-  Widget _buildBottomNav() {
+  Widget _buildBottomNav(int currentIndex) {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -121,11 +140,12 @@ class _MainShellState extends State<MainShell> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _NavItem(icon: Icons.home_rounded, label: 'Home', index: 0, current: _currentIndex, onTap: (i) => setState(() => _currentIndex = i)),
-              _NavItem(icon: Icons.bar_chart_rounded, label: 'Stats', index: 1, current: _currentIndex, onTap: (i) => setState(() => _currentIndex = i)),
-              _NavItem(icon: Icons.center_focus_strong_rounded, label: 'Focus', index: 2, current: _currentIndex, onTap: (i) => setState(() => _currentIndex = i)),
-              _NavItem(icon: Icons.emoji_events_rounded, label: 'Reports', index: 3, current: _currentIndex, onTap: (i) => setState(() => _currentIndex = i)),
-              _NavItem(icon: Icons.tune_rounded, label: 'Settings', index: 4, current: _currentIndex, onTap: (i) => setState(() => _currentIndex = i)),
+              _NavItem(icon: Icons.home_rounded, label: 'Home', index: 0, current: currentIndex, onTap: (i) => ref.read(navigationProvider.notifier).state = i),
+              _NavItem(icon: Icons.bar_chart_rounded, label: 'Stats', index: 1, current: currentIndex, onTap: (i) => ref.read(navigationProvider.notifier).state = i),
+              _NavItem(icon: Icons.center_focus_strong_rounded, label: 'Focus', index: 2, current: currentIndex, onTap: (i) => ref.read(navigationProvider.notifier).state = i),
+              _NavItem(icon: Icons.insights_rounded, label: 'Insights', index: 3, current: currentIndex, onTap: (i) => ref.read(navigationProvider.notifier).state = i),
+              _NavItem(icon: Icons.emoji_events_rounded, label: 'Reports', index: 4, current: currentIndex, onTap: (i) => ref.read(navigationProvider.notifier).state = i),
+              _NavItem(icon: Icons.tune_rounded, label: 'Settings', index: 5, current: currentIndex, onTap: (i) => ref.read(navigationProvider.notifier).state = i),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../widgets/why_opening_dialog.dart';
 import '../utils/app_theme.dart';
 
 /// HARD LOCK OVERLAY SCREEN
@@ -73,9 +74,19 @@ class _LockOverlayScreenState extends State<LockOverlayScreen>
     });
   }
 
-  void _unlockApp() {
+  Future<void> _unlockApp() async {
     _timer?.cancel();
-    Navigator.of(context).pop();
+    final intent = await WhyOpeningDialog.show(context, widget.appName ?? 'this app');
+    if (intent != null && mounted) {
+      Navigator.of(context).pop();
+    } else {
+      // If cancelled, restart timer or stay locked. 
+      // For now, just restarting the timer if it was finished.
+      if (_remainingSeconds <= 0) {
+        setState(() => _remainingSeconds = 30); // Give 30s penalty/buffer
+        _startTimer();
+      }
+    }
   }
 
   void _attemptClose() {

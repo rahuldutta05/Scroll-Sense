@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../models/hive_adapters.dart';
 import 'usage_stats_service.dart';
 
@@ -77,8 +78,12 @@ class DoomScrollDetector {
   void _checkContinuousUse(String app, DateTime now) {
     if (_currentAppStartTime == null) return;
     final duration = now.difference(_currentAppStartTime!);
+    // Read from persisted config; fallback to 30 min
+    final thresholdMins = Hive.isBoxOpen('settings')
+        ? (Hive.box('settings').get('iv_continuous_mins', defaultValue: 30) as int)
+        : 30;
 
-    if (duration.inMinutes >= 30) {
+    if (duration.inMinutes >= thresholdMins) {
       _triggerEvent(DoomScrollTrigger.continuousUse, app, duration.inSeconds, _getLevel(duration.inMinutes));
     }
   }

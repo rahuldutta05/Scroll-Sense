@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:scroll_sense/main.dart';
 import '../utils/app_theme.dart';
 import '../services/usage_stats_service.dart';
 import '../services/doom_scroll_detector.dart';
-import '../models/hive_adapters.dart';
+import 'package:scroll_sense/models/hive_adapters.dart';
 import '../widgets/score_ring.dart';
 import '../widgets/app_usage_card.dart';
+import '../widgets/intervention_history_card.dart';
+import '../services/focus_session_store.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -112,6 +115,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                 // Intervention Levels
                 _buildInterventionCard(),
+                const SizedBox(height: 20),
+
+                // Recent interventions
+                Text('Intervention Log', style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: 12),
+                const InterventionHistoryCard(maxItems: 4),
               ]),
             ),
           ),
@@ -239,32 +248,45 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _StatPair(label: 'Daily Avg', value: '${hours}h ${minutes}m'),
-              _StatPair(label: 'Weekly Total', value: '${hours * 7}h'),
-              _StatPair(label: 'Longest', value: '${hours + 2}h 30m'),
-            ],
-          ),
+          Builder(builder: (_) {
+            final store = FocusSessionStore();
+            final wMins = store.weeklyFocusMinutes();
+            final streak = store.focusStreak();
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _StatPair(label: 'Today', value: '${hours}h ${minutes}m'),
+                _StatPair(label: 'Focus/Week', value: '${wMins ~/ 60}h ${wMins % 60}m'),
+                _StatPair(label: 'Streak', value: '${streak}d 🔥'),
+              ],
+            );
+          }),
         ],
       ),
     );
   }
 
   List<BarChartGroupData> _buildWeeklyBarData() {
-    final random = [5.5, 7.2, 4.8, 8.1, 6.3, 9.2, 5.5];
-    return List.generate(7, (i) => BarChartGroupData(
-      x: i,
-      barRods: [
-        BarChartRodData(
-          toY: random[i],
-          color: i == 6 ? AppTheme.primary : AppTheme.primary.withOpacity(0.4),
-          width: 20,
-          borderRadius: BorderRadius.circular(6),
-        ),
-      ],
-    ));
+    // Real focus minutes per day from persisted sessions
+    final store = FocusSessionStore();
+    final daily = store.dailyFocusMinutesLast7();
+    // Scale to hours for display, min 0.1 so empty days still show a tiny bar
+    final today = DateTime.now().weekday - 1; // 0=Mon
+    return List.generate(7, (i) {
+      final hours = (daily[i] / 60).clamp(0.0, 12.0);
+      final isToday = i == today;
+      return BarChartGroupData(
+        x: i,
+        barRods: [
+          BarChartRodData(
+            toY: hours > 0 ? hours : 0.05,
+            color: isToday ? AppTheme.primary : AppTheme.primary.withOpacity(0.35),
+            width: 20,
+            borderRadius: BorderRadius.circular(6),
+          ),
+        ],
+      );
+    });
   }
 
   Widget _buildQuickActions() {
@@ -279,21 +301,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               icon: Icons.lock_rounded,
               label: 'Focus Mode',
               color: AppTheme.primary,
-              onTap: () {},
+              onTap: () {
+                ref.read(navigationProvider.notifier).state = 2;
+                ref.read(focusTabModeProvider.notifier).state = false;
+              },
             ),
             const SizedBox(width: 12),
             _QuickActionButton(
               icon: Icons.timer_rounded,
               label: 'Pomodoro',
               color: AppTheme.accent,
-              onTap: () {},
+              onTap: () {
+                ref.read(navigationProvider.notifier).state = 2;
+                ref.read(focusTabModeProvider.notifier).state = true;
+              },
             ),
             const SizedBox(width: 12),
             _QuickActionButton(
               icon: Icons.block_rounded,
               label: 'Block App',
               color: AppTheme.warning,
-              onTap: () {},
+              onTap: () => Navigator.pushNamed(context, '/blocked_apps'),
             ),
             const SizedBox(width: 12),
             _QuickActionButton(
