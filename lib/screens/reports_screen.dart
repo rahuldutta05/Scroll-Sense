@@ -220,7 +220,7 @@ class _ReportsScreenState extends ConsumerState<ReportsScreen> with SingleTicker
         children: [
           Text('Focus Minutes by Day', style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 4),
-          Text('This week's completed focus sessions', style: Theme.of(context).textTheme.bodyMedium),
+          Text('Completed focus sessions for this week', style: Theme.of(context).textTheme.bodyMedium),
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
