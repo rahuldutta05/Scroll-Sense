@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'usage_stats_service.dart';
+import 'scroll_notification_service.dart';
 
 class DigitalDebtData {
   final int dailyGoalMinutes;
@@ -98,12 +99,41 @@ class DigitalDebtService {
       baseline = (weeklyMinutes * 1.1).round();
     }
 
-    return DigitalDebtData(
+    final result = DigitalDebtData(
       dailyGoalMinutes: goal,
       todayUsageMinutes: todayMinutes,
       weeklyUsageMinutes: weeklyMinutes,
       baselineWeeklyMinutes: baseline,
     );
+
+    // Fire budget notifications at 80% and 100% of goal
+    final pct = goal > 0 ? todayMinutes / goal : 0.0;
+    final box = Hive.isBoxOpen('settings') ? Hive.box('settings') : null;
+    final lastBudgetNotifDate = box?.get('last_budget_notif_date') as String?;
+    final today = DateTime.now();
+    final todayStr = '${today.year}-${today.month}-${today.day}';
+    if (lastBudgetNotifDate != todayStr) {
+      if (pct >= 1.0) {
+        await ScrollNotificationService.sendBudgetExceeded(goalMins: goal);
+        await ScrollNotificationService.persistInApp(
+          title: '❌ Daily Budget Exceeded',
+          body: 'You\'ve passed your ${goal ~/ 60}h screen time goal for today.',
+          type: 'budget_over',
+        );
+        box?.put('last_budget_notif_date', todayStr);
+      } else if (pct >= 0.8) {
+        await ScrollNotificationService.sendDailyBudgetWarning(
+            usedMins: todayMinutes, goalMins: goal);
+        await ScrollNotificationService.persistInApp(
+          title: '⏱️ 80% of Daily Budget Used',
+          body: '${todayMinutes ~/ 60}h ${todayMinutes % 60}m of your ${goal ~/ 60}h goal.',
+          type: 'budget_warn',
+        );
+        box?.put('last_budget_notif_date', todayStr);
+      }
+    }
+
+    return result;
   }
 
   /// Call this to reset the baseline (e.g. on a new month).

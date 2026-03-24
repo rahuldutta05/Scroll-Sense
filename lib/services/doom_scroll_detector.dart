@@ -9,7 +9,6 @@ enum DoomScrollTrigger {
   rapidAppSwitch,
   socialMediaBinge,
   nightBinge,
-  repeatedRelaunch,
   scrollFrequency,
   studyDistraction,
   usageSpike,
@@ -20,7 +19,6 @@ class DoomScrollDetector {
   String? _currentApp;
   DateTime? _currentAppStartTime;
   final List<_AppSwitch> _recentSwitches = [];
-  final Map<String, int> _appOpenCounts = {};
   int _continuousMinutes = 0;
   Timer? _monitorTimer;
 
@@ -64,14 +62,12 @@ class DoomScrollDetector {
 
       _currentApp = foregroundApp;
       _currentAppStartTime = now;
-      _appOpenCounts[foregroundApp] = (_appOpenCounts[foregroundApp] ?? 0) + 1;
     }
 
     // Check triggers
     _checkContinuousUse(foregroundApp, now);
     _checkRapidSwitching(now);
     _checkNightBinge(foregroundApp, now);
-    _checkRepeatedRelaunch(foregroundApp);
     _checkSocialMediaBinge(foregroundApp, now);
   }
 
@@ -108,13 +104,6 @@ class DoomScrollDetector {
           _triggerEvent(DoomScrollTrigger.nightBinge, app, duration.inSeconds, 4);
         }
       }
-    }
-  }
-
-  void _checkRepeatedRelaunch(String app) {
-    final count = _appOpenCounts[app] ?? 0;
-    if (count >= 5 && _socialMediaApps.contains(app)) {
-      _triggerEvent(DoomScrollTrigger.repeatedRelaunch, app, 0, 3);
     }
   }
 
@@ -160,15 +149,13 @@ class DoomScrollDetector {
     final socialSeconds = records
         .where((r) => _isSocialMedia(r.packageName))
         .fold(0, (sum, r) => sum + r.durationSeconds);
-    final totalOpenCount = records.fold(0, (sum, r) => sum + r.openCount);
-
     final socialRatio = totalSeconds > 0 ? socialSeconds / totalSeconds : 0.0;
-    final avgSessionLength = totalOpenCount > 0 ? totalSeconds / totalOpenCount : 0;
+    // Score based purely on time ratios (no open count)
+    final avgDailySeconds = totalSeconds / 7;
 
-    // Score calculations (0-100)
     final addictionScore = ((socialRatio * 60) +
-        (avgSessionLength > 300 ? 20 : 0) +
-        (totalOpenCount > 30 ? 20 : 0))
+        (avgDailySeconds > 4 * 3600 ? 20 : 0) +  // >4h/day
+        (avgDailySeconds > 8 * 3600 ? 20 : 0))    // >8h/day
         .clamp(0, 100).toDouble();
 
     final focusScore = (100 - addictionScore).clamp(0, 100).toDouble();

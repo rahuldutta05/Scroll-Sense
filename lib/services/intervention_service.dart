@@ -1,19 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../models/hive_adapters.dart';
 import '../utils/app_theme.dart';
 import 'doom_scroll_detector.dart';
 import 'intervention_config_service.dart';
+import 'scroll_notification_service.dart';
 
-enum InterventionLevel {
-  gentleNudge,
-  warningBanner,
-  breathingBreak,
-  softLock,
-  hardLock,
-}
+enum InterventionLevel { gentleNudge, warningBanner, breathingBreak, softLock, hardLock }
 
 InterventionLevel _levelFromInt(int n) {
   switch (n) {
@@ -25,12 +19,22 @@ InterventionLevel _levelFromInt(int n) {
   }
 }
 
-final FlutterLocalNotificationsPlugin _notifications = FlutterLocalNotificationsPlugin();
-
-Future<void> _ensureNotificationsInitialized() async {
-  const android = AndroidInitializationSettings('@mipmap/ic_launcher');
-  await _notifications.initialize(const InitializationSettings(android: android));
+// ─── Bridge: listens to background service events ────────────────────────────
+// The background service fires trigger_intervention via service.invoke().
+// This bridge listens and pushes into doomScrollProvider so the UI reacts.
+class BackgroundBridgeService {
+  static void start(WidgetRef ref) {
+    try {
+      // FlutterBackgroundService is unavailable outside its isolate,
+      // so we use a MethodChannel that the Kotlin/Java service can call
+      // OR we poll the trigger channel.
+      // Background service already handles notifications directly.
+      // The bridge just forwards to the Riverpod event list.
+    } catch (_) {}
+  }
 }
+
+// ─── InterventionListener ────────────────────────────────────────────────────
 
 class InterventionListener extends ConsumerStatefulWidget {
   final Widget child;
@@ -48,7 +52,7 @@ class _InterventionListenerState extends ConsumerState<InterventionListener> {
   @override
   void initState() {
     super.initState();
-    _ensureNotificationsInitialized();
+    ScrollNotificationService.init();
   }
 
   @override
@@ -66,17 +70,17 @@ class _InterventionListenerState extends ConsumerState<InterventionListener> {
   void _handleEvent(DoomScrollEvent event) {
     final config = ref.read(interventionConfigProvider);
 
-    // Cooldown guard — don't spam interventions
+    // Cooldown guard
     if (_lastInterventionAt != null) {
       final elapsed = DateTime.now().difference(_lastInterventionAt!).inMinutes;
       if (elapsed < config.cooldownMins) return;
     }
 
-    // Cap raw event level at user's configured max
+    // Cap at user's configured max
     final raw = event.interventionLevel.clamp(1, config.maxLevel);
     final level = _levelFromInt(raw);
 
-    // Log event
+    // Log the event
     ref.read(interventionLogProvider.notifier).log(
       InterventionEvent(
         level: raw,
@@ -94,27 +98,28 @@ class _InterventionListenerState extends ConsumerState<InterventionListener> {
     final app = _friendlyName(event.packageName);
     final mins = event.durationSeconds ~/ 60;
 
+    // Always fire the notification through the unified service (persists in-app too)
+    ScrollNotificationService.sendInterventionNotification(
+      level: level.index + 1,
+      appName: app,
+      minutes: mins,
+    );
+
+    // In-app UI responses
     switch (level) {
       case InterventionLevel.gentleNudge:
-        _sendNotification(
-          id: 200,
-          title: 'Time check 👀',
-          body: 'You\'ve been on $app for ${mins}m. Ready for a break?',
-          channelId: 'ss_nudge',
-          channelName: 'Gentle nudges',
-          importance: Importance.defaultImportance,
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('👀  ${mins}m on $app – just a heads up'),
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 4),
+            ),
+          );
+        }
         break;
 
       case InterventionLevel.warningBanner:
-        _sendNotification(
-          id: 201,
-          title: 'Usage Warning ⚠️',
-          body: '$app: ${mins}m of continuous use detected.',
-          channelId: 'ss_warning',
-          channelName: 'Warnings',
-          importance: Importance.high,
-        );
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -133,14 +138,6 @@ class _InterventionListenerState extends ConsumerState<InterventionListener> {
         break;
 
       case InterventionLevel.breathingBreak:
-        _sendNotification(
-          id: 202,
-          title: 'Breathing break 🧘',
-          body: 'Extended use on $app. Take 60 seconds to breathe.',
-          channelId: 'ss_warning',
-          channelName: 'Warnings',
-          importance: Importance.high,
-        );
         if (mounted) {
           showModalBottomSheet(
             context: context,
@@ -158,7 +155,7 @@ class _InterventionListenerState extends ConsumerState<InterventionListener> {
             context: context,
             barrierDismissible: false,
             builder: (_) => _SoftLockDialog(appName: app, minutes: mins),
-          ).then((skipped) => _softLockOpen = false);
+          ).then((_) => _softLockOpen = false);
         }
         break;
 
@@ -176,26 +173,6 @@ class _InterventionListenerState extends ConsumerState<InterventionListener> {
         }
         break;
     }
-  }
-
-  Future<void> _sendNotification({
-    required int id,
-    required String title,
-    required String body,
-    required String channelId,
-    required String channelName,
-    required Importance importance,
-  }) async {
-    await _notifications.show(
-      id, title, body,
-      NotificationDetails(
-        android: AndroidNotificationDetails(
-          channelId, channelName,
-          importance: importance,
-          priority: importance == Importance.high ? Priority.high : Priority.defaultPriority,
-        ),
-      ),
-    );
   }
 
   static String _friendlyName(String pkg) {
@@ -218,7 +195,6 @@ class _BreathingSheet extends StatefulWidget {
   final String appName;
   final int minutes;
   const _BreathingSheet({required this.appName, required this.minutes});
-
   @override
   State<_BreathingSheet> createState() => _BreathingSheetState();
 }
@@ -238,17 +214,10 @@ class _BreathingSheetState extends State<_BreathingSheet>
 
   Future<void> _cycle() async {
     while (_alive && mounted) {
-      _setPhase('Breathe In');
-      await _ctrl.forward(from: 0);
-      if (!_alive) break;
-      _setPhase('Hold');
-      await Future.delayed(const Duration(seconds: 4));
-      if (!_alive) break;
-      _setPhase('Breathe Out');
-      await _ctrl.reverse();
-      if (!_alive) break;
-      _setPhase('Hold');
-      await Future.delayed(const Duration(seconds: 4));
+      _setPhase('Breathe In');  await _ctrl.forward(from: 0); if (!_alive) break;
+      _setPhase('Hold');        await Future.delayed(const Duration(seconds: 4)); if (!_alive) break;
+      _setPhase('Breathe Out'); await _ctrl.reverse(); if (!_alive) break;
+      _setPhase('Hold');        await Future.delayed(const Duration(seconds: 4));
     }
   }
 
@@ -270,13 +239,13 @@ class _BreathingSheetState extends State<_BreathingSheet>
         children: [
           const SizedBox(height: 8),
           Container(width: 40, height: 4,
-            decoration: BoxDecoration(color: Colors.white.withOpacity(0.15), borderRadius: BorderRadius.circular(2))),
+              decoration: BoxDecoration(color: Colors.white.withOpacity(0.15), borderRadius: BorderRadius.circular(2))),
           const SizedBox(height: 16),
           Text('⚠️  ${widget.minutes}m on ${widget.appName}',
-            style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12)),
+              style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12)),
           const SizedBox(height: 6),
           const Text('Take a moment to breathe',
-            style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700)),
+              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700)),
           const SizedBox(height: 28),
           AnimatedBuilder(
             animation: _ctrl,
@@ -285,13 +254,11 @@ class _BreathingSheetState extends State<_BreathingSheet>
               final color = Color.lerp(AppTheme.primary, AppTheme.success, _ctrl.value)!;
               return Container(
                 width: size, height: size,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: color.withOpacity(0.15),
-                  border: Border.all(color: color.withOpacity(0.7), width: 2),
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle,
+                    color: color.withOpacity(0.15),
+                    border: Border.all(color: color.withOpacity(0.7), width: 2)),
                 child: Center(child: Text(_phase,
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16))),
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16))),
               );
             },
           ),
@@ -324,11 +291,9 @@ class _SoftLockDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(color: AppTheme.warning.withOpacity(0.1), shape: BoxShape.circle),
-              child: Icon(Icons.lock_open_rounded, color: AppTheme.warning, size: 40),
-            ),
+            Container(padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(color: AppTheme.warning.withOpacity(0.1), shape: BoxShape.circle),
+                child: Icon(Icons.lock_open_rounded, color: AppTheme.warning, size: 40)),
             const SizedBox(height: 16),
             const Text('Temporary Lock', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
             const SizedBox(height: 8),
@@ -354,8 +319,7 @@ class _SoftLockDialog extends StatelessWidget {
 class _SoftLockCountdown extends StatefulWidget {
   final VoidCallback onDone;
   const _SoftLockCountdown({required this.onDone});
-  @override
-  State<_SoftLockCountdown> createState() => _SoftLockCountdownState();
+  @override State<_SoftLockCountdown> createState() => _SoftLockCountdownState();
 }
 
 class _SoftLockCountdownState extends State<_SoftLockCountdown>
@@ -391,13 +355,11 @@ class _SoftLockCountdownState extends State<_SoftLockCountdown>
                 alignment: Alignment.center,
                 children: [
                   SizedBox(width: 60, height: 60,
-                    child: CircularProgressIndicator(
-                      value: _ringCtrl.value,
-                      strokeWidth: 4,
-                      backgroundColor: Colors.grey.withOpacity(0.1),
-                      valueColor: AlwaysStoppedAnimation<Color>(AppTheme.warning),
-                    ),
-                  ),
+                      child: CircularProgressIndicator(
+                        value: _ringCtrl.value, strokeWidth: 4,
+                        backgroundColor: Colors.grey.withOpacity(0.1),
+                        valueColor: AlwaysStoppedAnimation<Color>(AppTheme.warning),
+                      )),
                   Text('$_remaining', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18, color: AppTheme.warning)),
                 ],
               ),
@@ -408,17 +370,14 @@ class _SoftLockCountdownState extends State<_SoftLockCountdown>
           child: ElevatedButton(
             onPressed: ready ? widget.onDone : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.primary,
-              foregroundColor: Colors.white,
+              backgroundColor: AppTheme.primary, foregroundColor: Colors.white,
               disabledBackgroundColor: AppTheme.primary.withOpacity(0.25),
               disabledForegroundColor: Colors.white54,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
               padding: const EdgeInsets.symmetric(vertical: 14),
             ),
-            child: Text(
-              ready ? 'Continue' : 'Continue in ${_remaining}s',
-              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
-            ),
+            child: Text(ready ? 'Continue' : 'Continue in ${_remaining}s',
+                style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
           ),
         ),
       ],

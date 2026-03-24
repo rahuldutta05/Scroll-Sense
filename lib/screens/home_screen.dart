@@ -10,6 +10,9 @@ import '../widgets/score_ring.dart';
 import '../widgets/app_usage_card.dart';
 import '../widgets/intervention_history_card.dart';
 import '../services/focus_session_store.dart';
+import '../services/scroll_notification_service.dart';
+import 'notifications/notification_screen.dart';
+import '../services/intervention_config_service.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -80,14 +83,37 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ],
                   ),
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: AppTheme.primary.withOpacity(0.1),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(Icons.notifications_rounded, color: AppTheme.primary, size: 20),
+                  FutureBuilder<int>(
+                    future: ScrollNotificationService.getUnreadCount(),
+                    builder: (ctx, snap) {
+                      final unread = snap.data ?? 0;
+                      return GestureDetector(
+                        onTap: () => Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => const NotificationScreen())),
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Container(
+                              width: 40, height: 40,
+                              decoration: BoxDecoration(
+                                  color: AppTheme.primary.withOpacity(0.1),
+                                  shape: BoxShape.circle),
+                              child: const Icon(Icons.notifications_rounded, color: AppTheme.primary, size: 20),
+                            ),
+                            if (unread > 0)
+                              Positioned(
+                                right: -2, top: -2,
+                                child: Container(
+                                  width: 16, height: 16,
+                                  decoration: const BoxDecoration(color: AppTheme.accent, shape: BoxShape.circle),
+                                  child: Center(child: Text('$unread',
+                                      style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.w800))),
+                                ),
+                              ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -359,21 +385,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Intervention Levels',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16),
-          ),
-          const SizedBox(height: 16),
-          ...List.generate(5, (i) => _InterventionLevelRow(
-            level: i + 1,
-            label: ['Gentle Notification', 'Warning Popup', 'Breathing Break',
-                    'Temporary Lock', 'HARD LOCK 🔒'][i],
-            active: i < 3,
-          )),
-        ],
+      child: Consumer(
+        builder: (ctx, ref, _) {
+          final maxLevel = ref.watch(interventionConfigProvider).maxLevel;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Intervention Levels',
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16)),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(12)),
+                    child: Text('Max: L$maxLevel',
+                        style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w700)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              ...List.generate(5, (i) => _InterventionLevelRow(
+                level: i + 1,
+                label: ['Gentle Notification', 'Warning Popup', 'Breathing Break',
+                        'Temporary Lock', 'HARD LOCK 🔒'][i],
+                active: i < maxLevel,
+              )),
+            ],
+          );
+        },
       ),
     );
   }
@@ -508,18 +549,18 @@ class _BreathingExerciseSheetState extends State<BreathingExerciseSheet>
 
   void _startBreathing() async {
     while (mounted) {
-      setState(() { _phase = 'Breathe In'; _count = 4; });
+      if (mounted) setState(() { _phase = 'Breathe In'; _count = 4; });
       _breathController.forward();
       await Future.delayed(const Duration(seconds: 4));
 
-      setState(() { _phase = 'Hold'; _count = 4; });
+      if (mounted) setState(() { _phase = 'Hold'; _count = 4; });
       await Future.delayed(const Duration(seconds: 4));
 
-      setState(() { _phase = 'Breathe Out'; _count = 4; });
+      if (mounted) setState(() { _phase = 'Breathe Out'; _count = 4; });
       _breathController.reverse();
       await Future.delayed(const Duration(seconds: 4));
 
-      setState(() { _phase = 'Hold'; _count = 4; });
+      if (mounted) setState(() { _phase = 'Hold'; _count = 4; });
       await Future.delayed(const Duration(seconds: 4));
     }
   }

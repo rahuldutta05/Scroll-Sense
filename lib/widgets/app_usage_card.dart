@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/hive_adapters.dart';
 import '../utils/app_theme.dart';
 import 'score_ring.dart';
+
 // Score Card with ring visualization
 class ScoreCard extends StatelessWidget {
   final String label;
@@ -98,7 +99,7 @@ class AppUsageCard extends StatelessWidget {
               children: [
                 Text(record.appName, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 14)),
                 Text(
-                  '${record.openCount} opens',
+                  record.packageName.split('.').last,
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ],

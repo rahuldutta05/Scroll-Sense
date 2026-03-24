@@ -21,15 +21,13 @@ class AppUsageRecordAdapter extends TypeAdapter<AppUsageRecord> {
       appName: fields[1] as String,
       durationSeconds: fields[2] as int,
       date: fields[3] as DateTime,
-      openCount: fields[4] as int,
-      appIcon: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, AppUsageRecord obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.packageName)
       ..writeByte(1)
@@ -37,11 +35,7 @@ class AppUsageRecordAdapter extends TypeAdapter<AppUsageRecord> {
       ..writeByte(2)
       ..write(obj.durationSeconds)
       ..writeByte(3)
-      ..write(obj.date)
-      ..writeByte(4)
-      ..write(obj.openCount)
-      ..writeByte(5)
-      ..write(obj.appIcon);
+      ..write(obj.date);
   }
 
   @override

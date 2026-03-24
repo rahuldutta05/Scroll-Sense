@@ -432,7 +432,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> with SingleTi
           appName: r.appName,
           durationSeconds: appTotals[r.packageName]!.durationSeconds + r.durationSeconds,
           date: r.date,
-          openCount: appTotals[r.packageName]!.openCount + r.openCount,
         );
       } else {
         appTotals[r.packageName] = r;

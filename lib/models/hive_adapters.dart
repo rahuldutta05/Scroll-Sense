@@ -19,16 +19,12 @@ class AppUsageRecord extends HiveObject {
   @HiveField(4)
   int openCount;
 
-  @HiveField(5)
-  String? appIcon; // base64
-
   AppUsageRecord({
     required this.packageName,
     required this.appName,
     required this.durationSeconds,
     required this.date,
     this.openCount = 0,
-    this.appIcon,
   });
 }
 

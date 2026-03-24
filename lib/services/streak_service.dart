@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'intervention_config_service.dart';
 import 'digital_debt_service.dart';
+import 'scroll_notification_service.dart';
 
 class StreakData {
   /// Days in a row the user stayed under their daily screen-time goal
@@ -80,11 +81,11 @@ class StreakService {
 
   /// Called once per day (e.g. on app open). Checks yesterday's behaviour
   /// and updates streaks accordingly.
-  StreakData recalculate({
+  Future<StreakData> recalculate({
     required List<InterventionEvent> recentEvents,
     required int dailyGoalMinutes,
     required int yesterdayUsageMinutes,
-  }) {
+  }) async {
     var data = load();
     final today = DateTime.now();
     final lastDate = data.lastChecked;
@@ -129,6 +130,17 @@ class StreakService {
       lastChecked: today,
     );
     save(data);
+
+    // Fire milestone notifications for key streak days
+    if (newBudget > 0 && (newBudget == 3 || newBudget == 7 || newBudget % 10 == 0)) {
+      await ScrollNotificationService.sendStreakAchievement(days: newBudget);
+      await ScrollNotificationService.persistInApp(
+        title: '🔥 ${newBudget}-Day Streak!',
+        body: '${newBudget} days under your screen time budget. Keep it going!',
+        type: 'streak',
+      );
+    }
+
     return data;
   }
 
@@ -146,7 +158,7 @@ class StreakService {
 
 final streakProvider = FutureProvider<StreakData>((ref) async {
   final service = StreakService();
-  final events = ref.read(interventionLogProvider);
+  final events = ref.watch(interventionLogProvider);
   final debtService = ref.read(digitalDebtServiceProvider);
   final debt = await debtService.calculate();
 

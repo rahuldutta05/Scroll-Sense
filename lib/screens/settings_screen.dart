@@ -391,7 +391,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         icon: Icons.star_rounded,
         title: 'Rate App',
         subtitle: 'Help us grow',
-        onTap: () {},
+        onTap: () async {
+          const url = 'market://details?id=com.scrollsense.app';
+          try {
+            await _channel.invokeMethod('openUrl', {'url': url});
+          } catch (_) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Could not open Play Store')),
+              );
+            }
+          }
+        },
         color: AppTheme.warning,
       ),
     ]);
@@ -440,9 +451,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
       final records = box.values.cast<AppUsageRecord>().toList();
 
       if (records.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('No data to export')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('No data to export')),
+          );
+        }
         return;
       }
 

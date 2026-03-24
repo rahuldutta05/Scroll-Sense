@@ -2,7 +2,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/hive_adapters.dart';
 
-
 class UsageStatsService {
   static const MethodChannel _channel = MethodChannel('com.scrollsense/usage_stats');
 
@@ -31,18 +30,23 @@ class UsageStatsService {
           .millisecondsSinceEpoch;
       final end = (endTime ?? DateTime.now()).millisecondsSinceEpoch;
 
-      final List<dynamic> result = await _channel.invokeMethod('getUsageStats', {
+      final List<dynamic>? result = await _channel.invokeMethod('getUsageStats', {
         'startTime': start,
         'endTime': end,
       });
 
-      return result.map((item) => AppUsageRecord(
-        packageName: item['packageName'] as String,
-        appName: item['appName'] as String,
-        durationSeconds: ((item['totalTime'] as int) / 1000).round(),
-        date: DateTime.now(),
-        openCount: item['launchCount'] as int? ?? 0,
-      )).toList();
+      if (result == null) return [];
+
+      return result.map<AppUsageRecord>((item) {
+        final map = item as Map<dynamic, dynamic>;
+        return AppUsageRecord(
+          packageName: map['packageName'] as String,
+          appName: map['appName'] as String,
+          durationSeconds: ((map['totalTime'] as int) / 1000).round(),
+          date: DateTime.now(),
+          openCount: 0, // open count not tracked per user preference
+        );
+      }).toList();
     } catch (e) {
       return [];
     }
@@ -72,6 +76,7 @@ class UsageStatsService {
     }
   }
 }
+
 // ─── Providers ──────────────────────────────────────────────────────────────
 final usageStatsServiceProvider = Provider<UsageStatsService>((ref) => UsageStatsService());
 
@@ -84,4 +89,3 @@ final dailyDeviceUsageProvider = FutureProvider<int>((ref) async {
   }
   return total;
 });
-

@@ -19,6 +19,7 @@ import 'screens/lock_overlay_screen.dart';
 import 'services/background_service.dart';
 import 'utils/app_theme.dart';
 import 'models/hive_adapters.dart';
+import 'screens/notifications/notification_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,6 +80,7 @@ class ScrollSenseApp extends ConsumerWidget {
           }
           return const LockOverlayScreen();
         },
+        '/notifications': (ctx) => const NotificationScreen(),
       },
     );
   }

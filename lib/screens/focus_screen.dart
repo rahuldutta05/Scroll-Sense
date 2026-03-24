@@ -8,6 +8,7 @@ import '../widgets/mood_checkin_sheet.dart';
 import '../utils/app_theme.dart';
 import '../services/focus_session_store.dart';
 import '../services/intervention_config_service.dart';
+import '../services/scroll_notification_service.dart';
 
 final focusModeProvider = StateNotifierProvider<FocusModeNotifier, FocusModeState>((ref) {
   return FocusModeNotifier(ref);
@@ -76,6 +77,14 @@ class FocusModeNotifier extends StateNotifier<FocusModeState> {
       sessionId: id,
     );
 
+    // Fire start notification
+    await ScrollNotificationService.sendFocusStarted(minutes: minutes, type: type);
+    await ScrollNotificationService.persistInApp(
+      title: type == 'pomodoro' ? '🍅 Pomodoro Started' : '🎯 Focus Session Started',
+      body: '${minutes}min session underway. Stay focused!',
+      type: 'focus_start',
+    );
+
     // Persist session start
     final store = _ref.read(focusSessionStoreProvider);
     await store.save(FocusSession(
@@ -118,6 +127,16 @@ class FocusModeNotifier extends StateNotifier<FocusModeState> {
       pomodoroCount: state.pomodoroCount + (state.sessionType == 'pomodoro' && completed ? 1 : 0),
       sessionId: null,
     );
+
+    // Notify on completion
+    if (completed && elapsed > 0) {
+      await ScrollNotificationService.sendFocusCompleted(minutes: elapsed);
+      await ScrollNotificationService.persistInApp(
+        title: '✅ Focus Session Complete!',
+        body: '${elapsed}min of focused time logged.',
+        type: 'focus_done',
+      );
+    }
 
     // Update persisted session as completed
     if (id != null && _sessionStart != null) {
@@ -496,7 +515,9 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
               );
             }
             return Column(
-              children: config.scheduledBlocks.map((block) {
+              children: config.scheduledBlocks.asMap().entries.map((entry) {
+                final idx = entry.key;
+                final block = entry.value;
                 final start = block.startTime;
                 final end = block.endTime;
                 final startStr = '${start.hourOfPeriod}:${start.minute.toString().padLeft(2,'0')} ${start.period.name.toUpperCase()}';
@@ -512,6 +533,7 @@ class _FocusScreenState extends ConsumerState<FocusScreen> {
                     time: '$startStr – $endStr',
                     days: dayStr,
                     appsCount: block.appsToBlock.length,
+                    blockIndex: idx,
                   ),
                 );
               }).toList(),
@@ -707,16 +729,23 @@ class _ModeCard extends StatelessWidget {
   }
 }
 
-class _ScheduledBlockCard extends StatelessWidget {
+class _ScheduledBlockCard extends ConsumerWidget {
   final String name;
   final String time;
   final String days;
   final int appsCount;
+  final int blockIndex; // position in scheduledBlocks list
 
-  const _ScheduledBlockCard({required this.name, required this.time, required this.days, required this.appsCount});
+  const _ScheduledBlockCard({
+    required this.name,
+    required this.time,
+    required this.days,
+    required this.appsCount,
+    required this.blockIndex,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -736,12 +765,27 @@ class _ScheduledBlockCard extends StatelessWidget {
               ],
             ),
           ),
-          Text('$appsCount apps', style: const TextStyle(color: AppTheme.primary, fontSize: 12, fontWeight: FontWeight.w600)),
+          Text('$appsCount apps',
+              style: const TextStyle(color: AppTheme.primary, fontSize: 12, fontWeight: FontWeight.w600)),
           const SizedBox(width: 8),
-          Switch(
-            value: true,
-            onChanged: (_) {},
-            activeColor: AppTheme.primary,
+          // Delete button
+          GestureDetector(
+            onTap: () {
+              final config = ref.read(interventionConfigProvider);
+              final updated = List<ScheduledBlock>.from(config.scheduledBlocks)
+                ..removeAt(blockIndex);
+              ref.read(interventionConfigProvider.notifier).update(
+                config.copyWith(scheduledBlocks: updated),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: AppTheme.accent.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(Icons.delete_outline_rounded, color: AppTheme.accent, size: 18),
+            ),
           ),
         ],
       ),

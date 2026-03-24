@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../utils/app_theme.dart';
+import 'package:flutter/services.dart';
 import '../services/usage_stats_service.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -133,21 +134,36 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           icon: Icons.accessibility_new,
           title: 'Accessibility Service',
           subtitle: 'Detect scroll behavior',
-          onTap: () {},
+          onTap: () async {
+            try {
+              await const MethodChannel('com.scrollsense/usage_stats')
+                  .invokeMethod('requestAccessibilityPermission');
+            } catch (_) {}
+          },
         ),
         const SizedBox(height: 12),
         _PermissionTile(
           icon: Icons.layers,
           title: 'Display Over Apps',
           subtitle: 'Show lock screen overlay',
-          onTap: () {},
+          onTap: () async {
+            try {
+              await const MethodChannel('com.scrollsense/usage_stats')
+                  .invokeMethod('requestOverlayPermission');
+            } catch (_) {}
+          },
         ),
         const SizedBox(height: 12),
         _PermissionTile(
           icon: Icons.notifications,
           title: 'Notifications',
           subtitle: 'Send intervention alerts',
-          onTap: () {},
+          onTap: () async {
+            try {
+              await const MethodChannel('com.scrollsense/usage_stats')
+                  .invokeMethod('requestNotificationPermission');
+            } catch (_) {}
+          },
         ),
       ],
     );
