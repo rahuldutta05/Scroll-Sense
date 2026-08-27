@@ -13,6 +13,7 @@ import '../services/focus_session_store.dart';
 import '../services/scroll_notification_service.dart';
 import 'notifications/notification_screen.dart';
 import '../services/intervention_config_service.dart';
+import '../services/csv_storage_service.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -187,7 +188,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final totalSeconds = _usageData.fold(0, (s, r) => s + r.durationSeconds);
     final hours = totalSeconds ~/ 3600;
     final minutes = (totalSeconds % 3600) ~/ 60;
-    final weeklyData = _buildWeeklyBarData();
+    final weeklyUsageAsync = ref.watch(weeklyCategorizedCsvUsageProvider);
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -240,37 +241,71 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           const SizedBox(height: 20),
           SizedBox(
             height: 140,
-            child: BarChart(
-              BarChartData(
-                alignment: BarChartAlignment.spaceAround,
-                maxY: 10,
-                barTouchData: BarTouchData(enabled: false),
-                titlesData: FlTitlesData(
-                  show: true,
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      getTitlesWidget: (value, meta) {
-                        const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-                        return Text(
-                          days[value.toInt() % 7],
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-                            fontSize: 11,
+            child: weeklyUsageAsync.when(
+              data: (weeklyData) {
+                // Calculate average hours per day for the dotted line
+                double totalHours = 0;
+                for (var dayData in weeklyData) {
+                  totalHours += dayData.totalHours;
+                }
+                final avgHours = weeklyData.isNotEmpty ? (totalHours / weeklyData.length) : 0.0;
+
+                return BarChart(
+                  BarChartData(
+                    alignment: BarChartAlignment.spaceAround,
+                    maxY: 12,
+                    barTouchData: BarTouchData(enabled: false),
+                    titlesData: FlTitlesData(
+                      show: true,
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          getTitlesWidget: (value, meta) {
+                            const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+                            return Text(
+                              days[value.toInt() % 7],
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                                fontSize: 11,
+                              ),
+                            );
+                          },
+                          reservedSize: 20,
+                        ),
+                      ),
+                      leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    ),
+                    gridData: const FlGridData(show: false),
+                    borderData: FlBorderData(show: false),
+                    barGroups: _buildWeeklyBarData(weeklyData),
+                    extraLinesData: ExtraLinesData(
+                      horizontalLines: [
+                        HorizontalLine(
+                          y: avgHours,
+                          color: AppTheme.primary.withOpacity(0.8),
+                          strokeWidth: 2,
+                          dashArray: [5, 5],
+                          label: HorizontalLineLabel(
+                            show: true,
+                            alignment: Alignment.topRight,
+                            padding: const EdgeInsets.only(right: 5, bottom: 5),
+                            style: TextStyle(
+                              color: AppTheme.primary,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            labelResolver: (line) => 'Avg: ${line.y.toStringAsFixed(1)}h',
                           ),
-                        );
-                      },
-                      reservedSize: 20,
+                        ),
+                      ],
                     ),
                   ),
-                  leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                ),
-                gridData: const FlGridData(show: false),
-                borderData: FlBorderData(show: false),
-                barGroups: weeklyData,
-              ),
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => const Center(child: Icon(Icons.error_outline)),
             ),
           ),
           const SizedBox(height: 16),
@@ -292,23 +327,51 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  List<BarChartGroupData> _buildWeeklyBarData() {
-    // Real focus minutes per day from persisted sessions
-    final store = FocusSessionStore();
-    final daily = store.dailyFocusMinutesLast7();
-    // Scale to hours for display, min 0.1 so empty days still show a tiny bar
+  List<BarChartGroupData> _buildWeeklyBarData(List<DailyCategorizedUsage> weeklyData) {
     final today = DateTime.now().weekday - 1; // 0=Mon
+    
+    // Fallback if data is not length 7
+    if (weeklyData.length != 7) return [];
+
     return List.generate(7, (i) {
-      final hours = (daily[i] / 60).clamp(0.0, 12.0);
       final isToday = i == today;
+      final data = weeklyData[i];
+      
+      final social = data.socialHours;
+      final entertainment = data.entertainmentHours;
+      final productive = data.productiveHours + data.otherHours; // Combine productivity and others for simplicity
+      final total = social + entertainment + productive;
+      
       return BarChartGroupData(
         x: i,
         barRods: [
           BarChartRodData(
-            toY: hours > 0 ? hours : 0.05,
-            color: isToday ? AppTheme.primary : AppTheme.primary.withOpacity(0.35),
+            toY: total > 0 ? total : 0.1,
             width: 20,
             borderRadius: BorderRadius.circular(6),
+            rodStackItems: [
+              BarChartRodStackItem(
+                0,
+                social,
+                isToday ? AppTheme.accent : AppTheme.accent.withOpacity(0.4),
+              ),
+              BarChartRodStackItem(
+                social,
+                social + entertainment,
+                isToday ? AppTheme.warning : AppTheme.warning.withOpacity(0.4),
+              ),
+              BarChartRodStackItem(
+                social + entertainment,
+                total,
+                isToday ? AppTheme.primary : AppTheme.primary.withOpacity(0.4),
+              ),
+            ],
+            // Background track for the bar
+            backDrawRodData: BackgroundBarChartRodData(
+              show: true,
+              toY: 12, // Max hours axis
+              color: AppTheme.primary.withOpacity(0.05),
+            ),
           ),
         ],
       );
